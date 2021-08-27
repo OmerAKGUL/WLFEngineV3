@@ -87,6 +87,7 @@ public class SendEmailServiceSpringBootImpl implements SendEmailService {
             String templateMailBodyImageKey = "imageResourceName";
             String templateMailBodyImageVal = "pttlogo.png";
 
+            mailResultList.sort(Comparator.comparing(MailResult::getKeyWord));
             // table 1 get data
             for (MailResult result:mailResultList)
            {
