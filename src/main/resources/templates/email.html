@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head><title>CherryShoe Html Email Example</title>
+    <style>
+body {
+    background-color: white;
+}
+
+/* White space is preserved with \n\n\n\n and css class a, span, tr { white-space: pre; } */
+a, span, tr { white-space: pre; }
+
+body {
+ color: black;
+ font-family: 'Arial', sans-serif;
+ font-weight: normal;
+ font-style: normal;
+ font-size: x-small;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+.ten {
+ width: 10%;
+}
+.forty {
+ width: 40%;
+}
+
+.twenty-five {
+width: 120px;
+}
+
+th {
+    background-color: #C6DEFF;
+    color: black;
+    vertical-align: middle;
+}
+
+th, td {
+    padding: 1px;
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.cherryshoe-font-bold {
+ color: black;
+ font-family: 'Arial', sans-serif;
+ font-weight: bold;
+ font-style: normal;
+ font-size: x-small;
+}
+
+</style>
+</head>
+<body>
+<span class="cherryshoe-font-bold">Merhabalar,</span> <!--  <span th:text="${name}"></span>, <br></br> -->
+
+<!-- Need br formatted this way for SAX Parser to parse with no errors -->
+<br></br>
+<span class="cherryshoe-font-bold">Kara Liste Uygulaması tarafından tespit edilen eşleşmeler aşağıdaki gidibir.</span>
+<br><br></br>
+<table>
+    <tr>
+        <th class="twenty-five">Liste Grubu(Keyword)</th>
+        <th class="twenty-five">Eşleşme Skoru</th>
+        <th class="twenty-five">Zaman</th>
+        <th class="twenty-five">Kara Liste Id</th>
+        <th class="twenty-five">Kara Liste Tipi</th>
+        <th class="twenty-five">Kara Liste Adı</th>
+        <th class="twenty-five">Kara Liste Ülke</th>
+        <th class="twenty-five">Kara Liste Pasaport/Id/TC</th>
+        <th class="twenty-five">Islem İd</th>
+        <th class="twenty-five">İşlem Tipi</th>
+        <th class="twenty-five">İşlem Tablosu</th>
+        <th class="twenty-five">İşlem Tanımlayıcısı(zaman/id)</th>
+        <th class="twenty-five">Gönderici Adı</th>
+        <th class="twenty-five">Gönderici Ülke</th>
+        <th class="twenty-five">Gönderici Pasaport/Id/TC</th>
+        <th class="twenty-five">Alıcı Adı</th>
+        <th class="twenty-five">Alıcı Ülke</th>
+        <th class="twenty-five">Alıcı Pasaport/Id/TC</th>
+    </tr>
+    <!-- Use th:utext to show unescaped html -->
+    <span th:utext="${table1}"></span>
+</table>
+
+<br><br></br>
+<span class="cherryshoe-font-bold">İyi günler,</span>
+</br>
+<span class="cherryshoe-font-bold">PTT Kara Liste Uygulaması</span>
+</br>
+
+</body>
+</html>

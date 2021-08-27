@@ -1,0 +1,10 @@
+javac -h . CppAlgoritms.java
+
+
+
+ g++ -c -I"C:\Program Files (x86)\Java\jdk1.8.0_281\include" -I"C:\Program Files (x86)\Java\jdk1.8.0_281\include\win32" com_baeldung_jni_CppAlgoritms.cpp -o CppAlgoritms.o
+
+
+g++ -shared -o native.dll CppAlgoritms.o -Wl,--add-stdcall-alias
+
+ https://www.baeldung.com/jni
