@@ -1,27 +1,26 @@
 package com.mdsap.wlf.match.threads;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.mdsap.wlf.db.config.AfparamvalParams;
+import com.mdsap.wlf.db.domain.ITXTxnQueue;
+import com.mdsap.wlf.db.domain.ITXTxnQueueMatchedArchive;
+import com.mdsap.wlf.db.domain.MEMatchResult;
+import com.mdsap.wlf.db.domain.WLMWLData;
 import com.mdsap.wlf.db.domain.matchParams.MatchFields;
 import com.mdsap.wlf.db.domain.matchParams.MatchProperities;
 import com.mdsap.wlf.db.domain.model.MailResult;
-import com.mdsap.wlf.match.threads.algorithms.*;
-
+import com.mdsap.wlf.match.threads.algorithms.Algorithms;
 import lombok.Data;
-
-import com.mdsap.wlf.db.domain.*;
-
 import org.apache.log4j.Logger;
- 
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
-public class MatchThreadPoolV1 implements Runnable {
-	  
-	private static Logger log  = Logger.getLogger(MatchThreadPoolV1.class);
-	
+public class MatchThreadPoolV2 implements Runnable {
+
+	private static Logger log  = Logger.getLogger(MatchThreadPoolV2.class);
+
 
 	private String threadName;
 	private  List<MailResult> mailResultList;
@@ -36,23 +35,23 @@ public class MatchThreadPoolV1 implements Runnable {
 	private int matchingScore;
 
 
-	
-	
+
+
     private Boolean isFinish;
-	   
-    
-	public MatchThreadPoolV1(String name) {
-	 
+
+
+	public MatchThreadPoolV2(String name) {
+
 	      threadName = name;
 	      matchAlgorithms = new Algorithms();
 	      mailResultList = new ArrayList<MailResult>();
 	      meMatchResult = new ArrayList<MEMatchResult>();
 		  itXTxnQueueMatchedArchive =  new ArrayList<ITXTxnQueueMatchedArchive>();
-	      
+
 	      setIsFinish(false);
 	   }
-	
-	public MatchThreadPoolV1(String name, List<ITXTxnQueue> vitxtxnQueueDevList, List<WLMWLData> wlmwlDataList, MatchProperities matchProperities) {
+
+	public MatchThreadPoolV2(String name, List<ITXTxnQueue> vitxtxnQueueDevList, List<WLMWLData> wlmwlDataList, MatchProperities matchProperities) {
 	     
 	 
 		
@@ -163,7 +162,6 @@ public class MatchThreadPoolV1 implements Runnable {
 	{
 
 
-
 		double totalScoreSc =0.0;
 		double totalScoreRc =0.0;
 		int kalanScoreSc=100;
@@ -219,85 +217,7 @@ public class MatchThreadPoolV1 implements Runnable {
 
 
 	}
-
-	private double getScoreOfSc(WLMWLData wlmwlData, ITXTxnQueue vitxtxnQueue)
-	{
-
-		// look for identity
-		if(vitxtxnQueue.getScnationalid() != null )
-			return (int)matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(),vitxtxnQueue.getScnationalid());
-
-		// look for country
-	   double scoreOfCountry= matchAlgorithms.getResultExact(wlmwlData.getCountryData(),vitxtxnQueue.getScnationality());
-
-		// look for full name
-		double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getScfullname());
-
-		// look for Birth Date
-		double scoreOfBirthDate=0;
-		if(wlmwlData.getBirthDateData().compareTo(vitxtxnQueue.getScbirthdate())==0)
-			scoreOfBirthDate=100;
-		else if(wlmwlData.getBirthDateData().getYear()==vitxtxnQueue.getScbirthdate().getYear())
-			scoreOfBirthDate=70;
-
-
-
-		for (MatchFields field:fieldList) {
-
-			switch (field.getFieldName()) {
-				case AfparamvalParams.MATCH_FIELD_FULL_NAME:
-					scoreOfFullName= scoreOfFullName * (field.getFieldScore() /100);
-				case AfparamvalParams.MATCH_FIELD_NATIONALITY:
-					scoreOfCountry= scoreOfCountry * (field.getFieldScore() /100);
-				case AfparamvalParams.MATCH_FIELD_BIRTH_DATE:
-					scoreOfBirthDate= scoreOfBirthDate * (field.getFieldScore() /100);
-
-			}
-		}
-
-		return scoreOfBirthDate+scoreOfCountry+scoreOfFullName;
-
-	}
-
-	private double getScoreOfRc(WLMWLData wlmwlData, ITXTxnQueue vitxtxnQueue)
-	{
-
-		// look for identity
-		if(vitxtxnQueue.getScnationalid() != null )
-			return (int)matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());
-
-		// look for country
-		double scoreOfCountry= matchAlgorithms.getResultExact(wlmwlData.getCountryData(),vitxtxnQueue.getRcnationality());
-
-		// look for full name
-		double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getRcfullname());
-
-		// look for Birth Date
-		double scoreOfBirthDate=0;
-		if(wlmwlData.getBirthDateData().compareTo(vitxtxnQueue.getRcbirthdate())==0)
-			scoreOfBirthDate=100;
-		else if(wlmwlData.getBirthDateData().getYear()==vitxtxnQueue.getRcbirthdate().getYear())
-			scoreOfBirthDate=70;
-
-
-
-		for (MatchFields field:fieldList) {
-
-			switch (field.getFieldName()) {
-				case AfparamvalParams.MATCH_FIELD_FULL_NAME:
-					scoreOfFullName= scoreOfFullName * (field.getFieldScore() /100);
-				case AfparamvalParams.MATCH_FIELD_NATIONALITY:
-					scoreOfCountry= scoreOfCountry * (field.getFieldScore() /100);
-				case AfparamvalParams.MATCH_FIELD_BIRTH_DATE:
-					scoreOfBirthDate= scoreOfBirthDate * (field.getFieldScore() /100);
-
-			}
-		}
-
-		return scoreOfBirthDate+scoreOfCountry+scoreOfFullName;
-
-	}
-
+	 
 	private double getInitialDistance(int len1,int len2,double fildScore)
 	{
 		if( len1== 0 || len2== 0)

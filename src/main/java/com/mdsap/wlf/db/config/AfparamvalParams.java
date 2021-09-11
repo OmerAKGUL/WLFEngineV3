@@ -20,7 +20,5 @@ public class AfparamvalParams {
     public final static String MATCH_FIELD_NATIONALITY_ID ="MF.NationalityID";
 
 
-
-
-
+    public static final String MATCH_FIELD_BIRTH_DATE = "MF.BirthDate";
 }
