@@ -162,6 +162,14 @@ public class MatchThreadPoolV1 implements Runnable {
 	private int getScore(WLMWLData wlmwlData, ITXTxnQueue vitxtxnQueue )
 	{
 
+		double totalScoreSc =getScoreOfSc(wlmwlData,vitxtxnQueue);
+		double totalScoreRc =getScoreOfRc(wlmwlData,vitxtxnQueue);
+		if(totalScoreSc>totalScoreRc)
+			return (int)(totalScoreSc);
+
+		return (int)(totalScoreRc);
+
+    /*
 
 
 		double totalScoreSc =0.0;
@@ -217,15 +225,22 @@ public class MatchThreadPoolV1 implements Runnable {
 
 		return (int)(totalScoreRc);
 
-
+*/
 	}
 
 	private double getScoreOfSc(WLMWLData wlmwlData, ITXTxnQueue vitxtxnQueue)
 	{
 
+		double scoreOfIdentity=0;
 		// look for identity
 		if(vitxtxnQueue.getScnationalid() != null )
-			return (int)matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(),vitxtxnQueue.getScnationalid());
+			scoreOfIdentity= matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(),vitxtxnQueue.getScnationalid());
+
+		if(scoreOfIdentity==100) return scoreOfIdentity;
+
+		// look for identity
+		scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getScnationalid());
+
 
 		// look for country
 	   double scoreOfCountry= matchAlgorithms.getResultExact(wlmwlData.getCountryData(),vitxtxnQueue.getScnationality());
@@ -235,36 +250,42 @@ public class MatchThreadPoolV1 implements Runnable {
 
 		// look for Birth Date
 		double scoreOfBirthDate=0;
-		if(wlmwlData.getBirthDateData().compareTo(vitxtxnQueue.getScbirthdate())==0)
-			scoreOfBirthDate=100;
-		else if(wlmwlData.getBirthDateData().getYear()==vitxtxnQueue.getScbirthdate().getYear())
-			scoreOfBirthDate=70;
+		if(wlmwlData.getBirthDateData() != null && vitxtxnQueue.getScbirthdate() !=null)
+			if(wlmwlData.getBirthDateData().compareTo(vitxtxnQueue.getScbirthdate())==0)
+				scoreOfBirthDate=100;
+			else if(wlmwlData.getBirthDateData().getYear()==vitxtxnQueue.getScbirthdate().getYear())
+				scoreOfBirthDate=70;
 
 
 
 		for (MatchFields field:fieldList) {
 
-			switch (field.getFieldName()) {
-				case AfparamvalParams.MATCH_FIELD_FULL_NAME:
+			if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_FULL_NAME))
 					scoreOfFullName= scoreOfFullName * (field.getFieldScore() /100);
-				case AfparamvalParams.MATCH_FIELD_NATIONALITY:
+			else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_NATIONALITY))
 					scoreOfCountry= scoreOfCountry * (field.getFieldScore() /100);
-				case AfparamvalParams.MATCH_FIELD_BIRTH_DATE:
+			else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_BIRTH_DATE))
 					scoreOfBirthDate= scoreOfBirthDate * (field.getFieldScore() /100);
+			else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_NATIONALITY_ID))
+				scoreOfIdentity= scoreOfIdentity * (field.getFieldScore() /100);
 
-			}
 		}
 
-		return scoreOfBirthDate+scoreOfCountry+scoreOfFullName;
+		return scoreOfBirthDate+scoreOfCountry+scoreOfFullName+scoreOfIdentity;
 
 	}
 
 	private double getScoreOfRc(WLMWLData wlmwlData, ITXTxnQueue vitxtxnQueue)
 	{
+		double scoreOfIdentity=0;
+		// look for identity
+		if(vitxtxnQueue.getRcnationalid() != null )
+			scoreOfIdentity=matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());
+
+		if(scoreOfIdentity==100) return scoreOfIdentity;
 
 		// look for identity
-		if(vitxtxnQueue.getScnationalid() != null )
-			return (int)matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());
+		scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());
 
 		// look for country
 		double scoreOfCountry= matchAlgorithms.getResultExact(wlmwlData.getCountryData(),vitxtxnQueue.getRcnationality());
@@ -274,27 +295,29 @@ public class MatchThreadPoolV1 implements Runnable {
 
 		// look for Birth Date
 		double scoreOfBirthDate=0;
-		if(wlmwlData.getBirthDateData().compareTo(vitxtxnQueue.getRcbirthdate())==0)
-			scoreOfBirthDate=100;
-		else if(wlmwlData.getBirthDateData().getYear()==vitxtxnQueue.getRcbirthdate().getYear())
-			scoreOfBirthDate=70;
+		if(wlmwlData.getBirthDateData() != null && vitxtxnQueue.getRcbirthdate() !=null)
+			if(wlmwlData.getBirthDateData().compareTo(vitxtxnQueue.getRcbirthdate())==0)
+				scoreOfBirthDate=100;
+			else if(wlmwlData.getBirthDateData().getYear()==vitxtxnQueue.getRcbirthdate().getYear())
+				scoreOfBirthDate=70;
 
 
 
 		for (MatchFields field:fieldList) {
 
-			switch (field.getFieldName()) {
-				case AfparamvalParams.MATCH_FIELD_FULL_NAME:
-					scoreOfFullName= scoreOfFullName * (field.getFieldScore() /100);
-				case AfparamvalParams.MATCH_FIELD_NATIONALITY:
-					scoreOfCountry= scoreOfCountry * (field.getFieldScore() /100);
-				case AfparamvalParams.MATCH_FIELD_BIRTH_DATE:
-					scoreOfBirthDate= scoreOfBirthDate * (field.getFieldScore() /100);
+			if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_FULL_NAME))
+				scoreOfFullName= scoreOfFullName * (field.getFieldScore() /100);
+			else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_NATIONALITY))
+				scoreOfCountry= scoreOfCountry * (field.getFieldScore() /100);
+			else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_BIRTH_DATE))
+				scoreOfBirthDate= scoreOfBirthDate * (field.getFieldScore() /100);
+			else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_NATIONALITY_ID))
+				scoreOfIdentity= scoreOfIdentity * (field.getFieldScore() /100);
 
-			}
+
 		}
 
-		return scoreOfBirthDate+scoreOfCountry+scoreOfFullName;
+		return scoreOfBirthDate+scoreOfCountry+scoreOfFullName+scoreOfIdentity;
 
 	}
 

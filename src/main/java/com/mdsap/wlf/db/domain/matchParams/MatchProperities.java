@@ -61,27 +61,19 @@ public class MatchProperities {
         double totalScore=0;
         for(MatchFields field:fieldList) {
 
-            totalScore += field.getFieldScore();
 
-            switch (field.getFieldName()) {
-                case AfparamvalParams.MATCH_FIELD_FULL_NAME:
-                    continue;
-                case AfparamvalParams.MATCH_FIELD_NATIONALITY:
-                    continue;
-                case AfparamvalParams.MATCH_FIELD_NATIONALITY_ID:
-                    continue;
-         /*       case AfparamvalParams.MATCH_FIELD_CITY:
-                    continue;
-                case AfparamvalParams.MATCH_FIELD_ADDRESS:
-                    continue;
-         */
-                default: {
-                    log.error("Field("+field.getFieldName()+") is not suitable for matching!!");
-                    return false;
-                }
+                if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_FULL_NAME))
+                    totalScore += field.getFieldScore();
+                else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_NATIONALITY))
+                totalScore += field.getFieldScore();
+                else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_BIRTH_DATE))
+                totalScore += field.getFieldScore();
+                else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_NATIONALITY_ID))
+                    totalScore += field.getFieldScore();
+
             }
 
-        }
+
         if(totalScore!=100)
         {
             log.error("Total Score of Fields is out of 100 !!");
