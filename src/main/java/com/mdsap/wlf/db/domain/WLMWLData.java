@@ -67,6 +67,8 @@ public class WLMWLData implements Serializable {
 	@Column(name="keyword")
 	private String KeyWord;
 
+	@Column(name="publishername")
+	private String PublisherName;
 
 	public String getData(String value)
 	{

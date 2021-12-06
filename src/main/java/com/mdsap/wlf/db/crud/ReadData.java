@@ -1,6 +1,7 @@
 package com.mdsap.wlf.db.crud;
 
  
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mdsap.wlf.db.config.AfparamvalParams;
@@ -35,27 +36,45 @@ public class ReadData {
 	private List<ITXTxnQueue> vitxtxnQueueList;
 	private List<MEConfig> meConfigList;
 	private List<Afparamval> afparamvalList;
+	private List<MatchProperities> matchProperitiesList;
 	private MatchProperities matchProperities;
 
+
 	private static Logger log  = Logger.getLogger(ReadData.class);
-	
+	private String MATCH_FIELDS_GROUP_NAME;
+	private String MATCH_ALGORITHM_GROUP_NAME;
 
 	public Boolean loadConfigData() {
 
 		log.info("Starting database transaction.");
 
-		matchProperities = new MatchProperities();
 
-		if(!loadAlgoritmType()) return false;
-		if(!loadMatchingScore()) return false;
-		if(!loadMatchingFields()) return false;
+		matchProperitiesList = new ArrayList<MatchProperities>();
 
-		if(!matchProperities.controlParam())
-		{
-			log.error("Error when controlling Matching Params !!!");
-			return false;
+		for(int i=0;i<2;i++) {
+
+			if(i==0) {
+				MATCH_FIELDS_GROUP_NAME = AfparamvalParams.MATCH_FIELDS_GROUP_NAME_V1;
+				MATCH_ALGORITHM_GROUP_NAME = AfparamvalParams.MATCH_ALGORITHM_GROUP_NAME_V1;
+			}else
+			{
+				MATCH_FIELDS_GROUP_NAME = AfparamvalParams.MATCH_FIELDS_GROUP_NAME_V2;
+				MATCH_ALGORITHM_GROUP_NAME = AfparamvalParams.MATCH_ALGORITHM_GROUP_NAME_V2;
+			}
+			matchProperities = new MatchProperities();
+
+			if (!loadAlgoritmType()) return false;
+			if (!loadMatchingScore()) return false;
+			if (!loadMatchingFields()) return false;
+
+			if (!matchProperities.controlParam()) {
+				log.error("Error when controlling Matching Params !!!");
+				return false;
+			}
+
+			matchProperitiesList.add(matchProperities);
+
 		}
-
 
 		if(!loadWLMWLData()) return false;
 		if(!loadVITXTxnQueue()) return false;
@@ -123,7 +142,7 @@ public class ReadData {
 		try {
 			log.info("Reading Algoritm Type from database.");
 
-			afparamvalList= repoAfparamval.findByParamgrpnameAndValue(AfparamvalParams.MATCH_ALGORITHM_GROUP_NAME,AfparamvalParams.MATCH_ALGORITHM_VALUE);
+			afparamvalList= repoAfparamval.findByParamgrpnameAndValue(MATCH_ALGORITHM_GROUP_NAME,AfparamvalParams.MATCH_ALGORITHM_VALUE);
 
 			if(afparamvalList.size()!=1)
 			{
@@ -151,7 +170,7 @@ public class ReadData {
 		try {
 			log.info("Reading Matching Score from database.");
 
-			afparamvalList= repoAfparamval.findByParamgrpnameAndCode(AfparamvalParams.MATCH_ALGORITHM_GROUP_NAME,AfparamvalParams.MATCH_ALGORITHM_SCORE);
+			afparamvalList= repoAfparamval.findByParamgrpnameAndCode(MATCH_ALGORITHM_GROUP_NAME,AfparamvalParams.MATCH_ALGORITHM_SCORE);
 
 			if(afparamvalList.size()!=1)
 			{
@@ -191,7 +210,7 @@ public class ReadData {
 
 		   log.info("Reading Matching Fields from database.");
 
-		   afparamvalList= repoAfparamval.findByParamgrpnameOrderByValueDesc(AfparamvalParams.MATCH_FIELDS_GROUP_NAME);
+		   afparamvalList= repoAfparamval.findByParamgrpnameOrderByValueDesc(MATCH_FIELDS_GROUP_NAME);
 
 		   for(Afparamval param:afparamvalList) {
 

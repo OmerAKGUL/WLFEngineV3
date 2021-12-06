@@ -27,7 +27,7 @@ public class MatchAll {
 	private List<ITXTxnQueue> vitxtxnQueueList;
 	private MatchProperities matchProperities;
 	private ITXTxnQueueId lastITXTxnQueueId;
-
+	private List<MatchProperities> matchProperitiesList;
 
 	private int threadCount;
 
@@ -95,9 +95,9 @@ public class MatchAll {
 						endIndex=allRows;
 
 					if(wlmwlDataList.size()>vitxtxnQueueList.size())
-						threads.add(new MatchThreadPoolV1( "Thread-"+i, vitxtxnQueueList,wlmwlDataList.subList(startIndex, endIndex),matchProperities) );
+						threads.add(new MatchThreadPoolV1( "Thread-"+i, vitxtxnQueueList,wlmwlDataList.subList(startIndex, endIndex),matchProperities,matchProperitiesList) );
 					else
-						threads.add(new MatchThreadPoolV1( "Thread-"+i, vitxtxnQueueList.subList(startIndex, endIndex),wlmwlDataList,matchProperities) );
+						threads.add(new MatchThreadPoolV1( "Thread-"+i, vitxtxnQueueList.subList(startIndex, endIndex),wlmwlDataList,matchProperities,matchProperitiesList) );
 
 					Runnable worker = threads.get(i);
 					executor.execute(worker);
@@ -108,7 +108,7 @@ public class MatchAll {
 				}
 			else
 			{
-				threads.add(new MatchThreadPoolV1( "Thread-"+0, vitxtxnQueueList,wlmwlDataList,matchProperities) );
+				threads.add(new MatchThreadPoolV1( "Thread-"+0, vitxtxnQueueList,wlmwlDataList,matchProperities,matchProperitiesList) );
 
 				Runnable worker = threads.get(0);
 				executor.execute(worker);

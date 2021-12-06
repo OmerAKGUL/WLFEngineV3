@@ -32,6 +32,7 @@ public class MatchThreadPoolV1 implements Runnable {
 
 	private Algorithms matchAlgorithms;
 	private MatchProperities matchProperities;
+	private List<MatchProperities> matchProperitiesList;
 	private List<MatchFields> fieldList;
 	private int matchingScore;
 
@@ -46,17 +47,20 @@ public class MatchThreadPoolV1 implements Runnable {
 	      threadName = name;
 	      matchAlgorithms = new Algorithms();
 	      mailResultList = new ArrayList<MailResult>();
+	      matchProperitiesList = new ArrayList<MatchProperities>();
 	      meMatchResult = new ArrayList<MEMatchResult>();
+
 		  itXTxnQueueMatchedArchive =  new ArrayList<ITXTxnQueueMatchedArchive>();
 	      
 	      setIsFinish(false);
 	   }
 	
-	public MatchThreadPoolV1(String name, List<ITXTxnQueue> vitxtxnQueueDevList, List<WLMWLData> wlmwlDataList, MatchProperities matchProperities) {
+	public MatchThreadPoolV1(String name, List<ITXTxnQueue> vitxtxnQueueDevList, List<WLMWLData> wlmwlDataList, MatchProperities matchProperities,List<MatchProperities> matchProperitiesList) {
 	     
 	 
 		
 		  threadName = name;
+		  setMatchProperitiesList(matchProperitiesList);
 		  setMatchProperities(matchProperities);
 	      setWlmwlDataList(wlmwlDataList);
 	      setVitxtxnQueueList(vitxtxnQueueDevList);
@@ -82,12 +86,27 @@ public class MatchThreadPoolV1 implements Runnable {
 	    	  log.info("Thread " +  getThreadName() + " is start");
 			  log.info("Thread " +  getThreadName() + " Black List Size : "+wlmwlDataList.size());
 			  log.info( "Thread " +  getThreadName() +" Transaction List Size : "+vitxtxnQueueList.size());
-			  fieldList= matchProperities.getFieldList();
+
 	    	  int i =0;
-	    	  matchingScore =matchProperities.getMatchingScore();
+
 	    	  for (ITXTxnQueue tran : vitxtxnQueueList) {
 				
 	    		  for (WLMWLData bl : wlmwlDataList) {
+
+
+					  if(bl.getPublisherName().equals(AfparamvalParams.MATCH_REFINITIVE_LIST_TYPE))
+					  {
+						  fieldList=matchProperitiesList.get(0).getFieldList();// matchProperities.getFieldList();
+						  matchingScore =matchProperitiesList.get(0).getMatchingScore();//matchProperities.getMatchingScore();
+						  matchAlgorithms.setAlgoritmType(matchProperitiesList.get(0).getAlgoritmType());
+					  }else
+					  {
+						  fieldList=matchProperitiesList.get(1).getFieldList();// matchProperities.getFieldList();
+						  matchingScore =matchProperitiesList.get(1).getMatchingScore();//matchProperities.getMatchingScore();
+						  matchAlgorithms.setAlgoritmType(matchProperitiesList.get(1).getAlgoritmType());
+
+					  }
+
 
 
 	    			  int totalScore= this.getScore(bl,tran);
@@ -238,6 +257,7 @@ public class MatchThreadPoolV1 implements Runnable {
 
 		if(scoreOfIdentity==100) return scoreOfIdentity;
 
+
 		// look for identity
 		scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getScnationalid());
 
@@ -283,6 +303,7 @@ public class MatchThreadPoolV1 implements Runnable {
 			scoreOfIdentity=matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());
 
 		if(scoreOfIdentity==100) return scoreOfIdentity;
+
 
 		// look for identity
 		scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());

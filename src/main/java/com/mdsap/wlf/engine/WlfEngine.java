@@ -49,6 +49,7 @@ public class WlfEngine {
 			
 	    MatchAll matchAll = new MatchAll();
 		matchAll.setMatchProperities(config.getMatchProperities());
+		matchAll.setMatchProperitiesList(config.getMatchProperitiesList());
 	    matchAll.setWlmwlDataList(config.getWlmwldataList());
 	    matchAll.setVitxtxnQueueList(config.getVitxtxnQueueList());
 	    
