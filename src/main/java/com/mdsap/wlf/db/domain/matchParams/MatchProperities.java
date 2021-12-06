@@ -68,8 +68,8 @@ public class MatchProperities {
                 totalScore += field.getFieldScore();
                 else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_BIRTH_DATE))
                 totalScore += field.getFieldScore();
-                else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_NATIONALITY_ID))
-                    totalScore += field.getFieldScore();
+               // else if(field.getFieldName().equals(AfparamvalParams.MATCH_FIELD_NATIONALITY_ID))
+              //    totalScore += field.getFieldScore();
 
             }
 
