@@ -1,5 +1,6 @@
 package com.mdsap.wlf.mail;
 
+import com.mdsap.wlf.db.domain.MEMatchResult;
 import com.mdsap.wlf.db.domain.model.MailResult;
 
 import java.io.IOException;
@@ -14,6 +15,6 @@ public interface SendEmailService {
      */
     public void sendHtmlEmail() throws IOException;
 
-    public  void setMailResultList(List<MailResult> mailResultList);
+    public  void setMailResultList(List<MailResult> mailResultList, List<MEMatchResult> meMatchResult);
     public  List<MailResult> getMailResultList();
 }

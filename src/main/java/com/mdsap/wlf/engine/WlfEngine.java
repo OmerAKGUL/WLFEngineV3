@@ -58,6 +58,7 @@ public class WlfEngine {
 	    List<MEMatchResult> meMatchResult = matchAll.processMatch();
 
 
+
         statu = insertMatchResults.insertAllMatchResults(meMatchResult,matchAll.getItXTxnQueueMatchedArchive(),matchAll.getLastITXTxnQueueId());
         
         if(!statu) {
@@ -67,7 +68,7 @@ public class WlfEngine {
 
         // Send Mail
 		try {
-			emailServiceSpringBoot.setMailResultList(matchAll.getMailResultList());
+			emailServiceSpringBoot.setMailResultList(matchAll.getMailResultList(),meMatchResult);
 			emailServiceSpringBoot.sendHtmlEmail();
 		} catch (Exception e) {
 			log.error("Send mail errors : "+e.toString());

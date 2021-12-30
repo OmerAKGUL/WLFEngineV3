@@ -2,25 +2,20 @@ package com.mdsap.wlf.mail;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import com.mdsap.wlf.db.domain.MEMatchResult;
 import com.mdsap.wlf.db.domain.Wlmwltype;
 import com.mdsap.wlf.db.domain.model.MailResult;
-import com.mdsap.wlf.db.repository.MEConfigRepository;
 import com.mdsap.wlf.db.repository.WlmwltypeRepository;
-import lombok.Data;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -208,14 +203,22 @@ public class SendEmailServiceSpringBootImpl implements SendEmailService {
         return mailResultList;
     }
 
-    public void setMailResultList(List<MailResult> mailResultList) {
+    public void setMailResultList(List<MailResult> mailResultList, List<MEMatchResult> meMatchResult) {
 
         this.mailResultList = new ArrayList<MailResult>();
-        for(MailResult result:mailResultList)
+
+
+        int i=0;
+         for(MailResult result:mailResultList)
         {
-        Optional<Wlmwltype> ty=  repoWlmwltype.findById(Integer.parseInt( result.getBlakListType()));
-        result.setBlakListType(ty.get().getName());
-        this.mailResultList.add(result);
+         Optional<Wlmwltype> ty=  repoWlmwltype.findById(Integer.parseInt( result.getBlakListType()));
+         result.setBlakListType(ty.get().getName());
+
+
+            result.setBlakListUid(meMatchResult.get(i).getId());
+
+         this.mailResultList.add(result);
+         i++;
         }
         this.mailResultList = mailResultList;
 
