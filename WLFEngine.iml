@@ -61,6 +61,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: com.vaadin.external.google:android-json:0.0.20131108.vaadin1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.1.4.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.6.2" level="project" />
+    <orderEntry type="library" name="Maven: com.microsoft.sqlserver:mssql-jdbc:10.1.0.jre17-preview" level="project" />
     <orderEntry type="library" name="Maven: com.sap.db.jdbc:jconn4:4.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-mail:2.1.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:5.1.4.RELEASE" level="project" />
