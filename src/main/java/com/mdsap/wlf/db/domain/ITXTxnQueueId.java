@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(schema = "WLF" ,name = "itxtxnqueueid")
+@Table(schema = "WLF" ,name = "ITXTxnQueueId")
 public class ITXTxnQueueId implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -18,10 +18,10 @@ public class ITXTxnQueueId implements Serializable {
 
     private Integer id;
 
-    @Column(name="itxtxnqueueid")
+    @Column(name="ITXTxnQueueId")
     private Integer itxtxnqueueID;
 
-    @Column(name="inserttime")
+    @Column(name="InsertTime")
     private Timestamp insertTime;
 
     public ITXTxnQueueId() {

@@ -18,7 +18,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Data @NoArgsConstructor
-@Table(schema = "WLF" ,name = "vtopitxtxnqueue")
+@Table(schema = "WLF" ,name = "VTopITXTxnQueue")
 public class ITXTxnQueue implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -28,212 +28,212 @@ public class ITXTxnQueue implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "etljobstart")
+	@Column(name = "ETLJobStart")
 	private Timestamp etljobstart;
 
-	@Column(name = "etljobsessiond")
+	@Column(name = "ETLJobSessionD")
 	private String etljobsessiond;
 
-	@Column(name = "createdt")
+	@Column(name = "CreateDT")
 	private Timestamp createdt;
 
-	@Column(name = "updatedt")
+	@Column(name = "UpdateDT")
 	private Timestamp updatedt;
 
-	@Column(name = "createusr")
+	@Column(name = "CreateUsr")
 	private Integer createusr;
 
-	@Column(name = "updateusr")
+	@Column(name = "UpdateUsr")
 	private Integer updateusr;
 
-	@Column(name = "wfstate")
+	@Column(name = "WFState")
 	private String wfstate;
 
-	@Column(name = "wfprocid")
+	@Column(name = "WFProcID")
 	private Integer wfprocid;
 
-	@Column(name = "scsyscustid")
+	@Column(name = "SCSysCustID")
 	private String scsyscustid;
 
-	@Column(name = "scname")
+
+	@Column(name = "SCName")
 	private String scname;
 
-	@Column(name = "scmidname")
+	@Column(name = "SCMidname")
 	private String scmidname;
 
-	@Column(name = "scsurname")
+	@Column(name = "SCSurname")
 	private String scsurname;
 
-	@Column(name = "scfullname")
+	@Column(name = "SCFullname")
 	private String scfullname;
 
-	@Column(name = "scbirthdate")
+	@Column(name = "SCBirthDate")
 	private Timestamp scbirthdate;
 
-	@Column(name = "sccommtitle")
+	@Column(name = "SCCommTitle")
 	private String sccommtitle;
 
 	//@Enumerated(EnumType.String)
-	@Column(name = "scaddresstype")
+	@Column(name = "SCAddressType")
 	private String scaddresstype;
 
-	@Column(name = "scaddress")
+	@Column(name = "SCAddress")
 	private String scaddress;
 
-	@Column(name = "sccity")
+	@Column(name = "SCCity")
 	private String sccity;
 
-	@Column(name = "scnationality")
+	@Column(name = "SCNationality")
 	private String scnationality;
 
-	@Column(name = "scnationalid")
+	@Column(name = "SCNationalID")
 	private String scnationalid;
 
 	//@Enumerated(EnumType.String)
-	@Column(name = "scidtype")
+	@Column(name = "SCIDType")
 	private String scidtype;
 
-	@Column(name = "scidno")
+	@Column(name = "SCIDNo")
 	private String scidno;
 
-	@Column(name = "scgender")
+	@Column(name = "SCGender")
 	private String scgender;
 
-	@Column(name = "saorgid")
+	@Column(name = "SAOrgId")
 	private Integer saorgid;
 
-	@Column(name = "saorgname")
+	@Column(name = "SAOrgName")
 	private String saorgname;
 
-	@Column(name = "sasyscode")
+	@Column(name = "SASysCode")
 	private String sasyscode;
 
-	@Column(name = "sabranchcode")
+	@Column(name = "SABranchCode")
 	private String sabranchcode;
 
-	@Column(name = "saname")
+	@Column(name = "SAName")
 	private String saname;
 
-	@Column(name = "rcsyscustid")
+	@Column(name = "RCSysCustID")
 	private String rcsyscustid;
 
-
-	@Column(name = "rcname")
+	@Column(name = "RCName")
 	private String rcname;
 
-	@Column(name = "rcmidname")
+	@Column(name = "RCMidname")
 	private String rcmidname;
 
-	@Column(name = "rcsurname")
+	@Column(name = "RCSurname")
 	private String rcsurname;
 
-	@Column(name = "rcfullname")
+	@Column(name = "RCFullname")
 	private String rcfullname;
 
-	@Column(name = "rcbirthdate")
+	@Column(name = "RCBirthDate")
 	private Timestamp rcbirthdate;
 
-	@Column(name = "rccommtitle")
+	@Column(name = "RCCommTitle")
 	private String rccommtitle;
 
 	//@Enumerated(EnumType.String)
-	@Column(name = "rcaddresstype")
+	@Column(name = "RCAddressType")
 	private Addrtype rcaddresstype;
 
-	@Column(name = "rcaddress")
+	@Column(name = "RCAddress")
 	private String rcaddress;
 
-	@Column(name = "rccity")
+	@Column(name = "RCCity")
 	private String rccity;
 
-	@Column(name = "rcnationality")
+	@Column(name = "RCNationality")
 	private String rcnationality;
 
-	@Column(name = "rcnationalid")
+	@Column(name = "RCNationalID")
 	private String rcnationalid;
 
-	@Column(name = "rcidtype")
+	@Column(name = "RCIDType")
 	private String rcidtype;
 
-	@Column(name = "rcidno")
+	@Column(name = "RCIDNo")
 	private String rcidno;
 
-	@Column(name = "rcgender")
+	@Column(name = "RCGender")
 	private String rcgender;
 
-	@Column(name = "raorgid")
+	@Column(name = "RAOrgId")
 	private Integer raorgid;
 
-	@Column(name = "raorgname")
+	@Column(name = "RAOrgName")
 	private String raorgname;
 
-	@Column(name = "rasyscode")
+	@Column(name = "RASysCode")
 	private String rasyscode;
 
-	@Column(name = "rabranchcode")
+	@Column(name = "RABranchCode")
 	private String rabranchcode;
 
-	@Column(name = "raname")
+	@Column(name = "RAName")
 	private String raname;
 
-	@Column(name = "txnchanneltype")
+	@Column(name = "TxnChannelType")
 	private String txnchanneltype;
 
-	@Column(name = "txnsysid")
+	@Column(name = "TxnSysID")
 	private String txnsysid;
 
-	@Column(name = "txnprodtype")
+	@Column(name = "TxnProdType")
 	private String txnprodtype;
 
-	@Column(name = "txnprodname")
+	@Column(name = "TxnProdName")
 	private String txnprodname;
 
-	@Column(name = "txnamount")
+	@Column(name = "TxnAmount")
 	private Double txnamount;
 
-	@Column(name = "txndescr")
+	@Column(name = "TxnDescr")
 	private String txndescr;
 
-	@Column(name = "txnentitiesupd")
+	@Column(name = "TxnEntitiesUpd")
 	private String txnentitiesupd;
 
-	@Column(name = "txnagentorgid")
+	@Column(name = "TxnAgentOrgId")
 	private Integer txnagentorgid;
 
-	@Column(name = "txnagentbrachid")
+	@Column(name = "TxnAgentBrachId")
 	private String txnagentbrachid;
 
-	@Column(name = "txnagenttype")
+	@Column(name = "TxnAgentType")
 	private String txnagenttype;
 
-	@Column(name = "txnagentaccid")
+	@Column(name = "TxnAgentAccID")
 	private String txnagentaccid;
 
-	@Column(name = "txnorderdate")
+	@Column(name = "TxnOrderDate")
 	private Timestamp txnorderdate;
 
-	@Column(name = "txnvaluedate")
+	@Column(name = "TxnValueDate")
 	private Timestamp txnvaluedate;
 
-	@Column(name="rctype")
+	@Column(name="RCType")
 	private Integer rctype;
 
-	@Column(name="ratype")
+	@Column(name="RAType")
 	private Integer ratype;
 
-	@Column(name="satype")
+	@Column(name="SAType")
 	private Integer satype;
 
-	@Column(name="sctype")
+	@Column(name="SCType")
 	private Integer sctype;
 
-	@Column(name="txntypeid")
+	@Column(name="TxnTypeID")
 	private Integer txntypeid;
 
-	@Column(name="txncurrency")
+	@Column(name="TxnCurrency")
 	private String txncurrency;
 
-	@Column(name="etljobtype")
+	@Column(name="ETLJobType")
 	private Integer etljobtype;
 
 	public String getDataSc(String value)

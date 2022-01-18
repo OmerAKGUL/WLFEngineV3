@@ -55,12 +55,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
       <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
       <dependency>
           <groupId>com.microsoft.sqlserver</groupId>
           <artifactId>mssql-jdbc</artifactId>
-          <version>10.1.0.jre17-preview</version>
+          <version>9.5.0.jre8-preview</version>
       </dependency>
+
 
       <dependency>
 			<groupId>com.sap.db.jdbc</groupId>

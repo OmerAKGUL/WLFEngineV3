@@ -26,7 +26,7 @@ public class MEConfig {
     @Column(name="Descr")
     private String descr;
 
-    @Column(name="wlfieldlist")
+    @Column(name="WLFieldList")
     private String wlFieldList;
 
     @Column(name="ScheduleID")
@@ -38,10 +38,10 @@ public class MEConfig {
     @Column(name="UpdateDT")
     private Timestamp updateDT;
 
-    @Column(name="createusr")
+    @Column(name="CreateUsr")
     private Integer createUsr;
 
-    @Column(name="updateusr")
+    @Column(name="UpdateUsr")
     private Integer updateUsr;
 
     @Column(name="WFState")
@@ -49,5 +49,7 @@ public class MEConfig {
 
     @Column(name="WFProcID")
     private Integer wfProcID;
+
+
 
 }

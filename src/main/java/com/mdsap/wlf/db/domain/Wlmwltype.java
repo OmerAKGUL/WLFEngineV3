@@ -10,7 +10,7 @@ package com.mdsap.wlf.db.domain;
 
 @Entity
 @Data
-@Table(schema = "WLF" ,name = "Wlmwltype")
+@Table(schema = "WLF" ,name = "WLMWLType")
 public class Wlmwltype implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -18,46 +18,46 @@ public class Wlmwltype implements Serializable {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "Code", nullable = false)
     private String code;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "Name", nullable = false)
     private String name;
 
-    @Column(name = "descr")
+    @Column(name = "Descr")
     private String descr;
 
-    @Column(name = "publishercat")
+    @Column(name = "PublisherCat")
     private String publishercat;
 
-    @Column(name = "publisherorgid")
+    @Column(name = "PublisherOrgID")
     private Integer publisherorgid;
 
-    @Column(name = "publishername")
+    @Column(name = "PublisherName")
     private String publishername;
 
-    @Column(name = "publishformat")
+    @Column(name = "PublishFormat")
     private String publishformat;
 
-    @Column(name = "filteringtype")
+    @Column(name = "FilteringType")
     private String filteringtype;
 
-    @Column(name = "createdt")
+    @Column(name = "CreateDT")
     private Instant createdt;
 
-    @Column(name = "updatedt")
+    @Column(name = "UpdateDT")
     private Instant updatedt;
 
-    @Column(name = "createusr")
+    @Column(name = "CreateUsr")
     private Integer createusr;
 
-    @Column(name = "updateusr")
+    @Column(name = "UpdateUsr")
     private Integer updateusr;
 
-    @Column(name = "wfstate")
+    @Column(name = "WFState")
     private String wfstate;
 
-    @Column(name = "wfprocid")
+    @Column(name = "WFProcID")
     private String wfprocid;
 
 

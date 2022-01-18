@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Data
-@Table(schema = "WLF" ,name = "mematchresult")
+@Table(schema = "WLF" ,name = "MEMatchResult")
 public class MEMatchResult implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -27,43 +27,43 @@ public class MEMatchResult implements Serializable {
 	//@Column(name="id")
 	private Integer id;
 
-	@Column(name="matchid")
+	@Column(name="MatchID")
 	private Integer matchID;
 
-	@Column(name="createdt")
+	@Column(name="CreateDT")
 	private Timestamp createDT;
 
-	@Column(name="createusr")
+	@Column(name="CreateUsr")
 	private Integer createUsr;
 
-	@Column(name="invprocid")
+	@Column(name="InvProcID")
 	private Integer invProcID;
 
-	@Column(name="matchconfigcode")
+	@Column(name="MatchConfigCode")
 	private String matchConfigCode;
 
-	@Column(name="matchctxid")
+	@Column(name="MatchCtxID")
 	private Integer matchCtxID;
 
-	@Column(name="matchscore")
+	@Column(name="MatchScore")
 	private BigDecimal matchScore;
 
-	@Column(name="matchtxnid")
+	@Column(name="MatchTxnID")
 	private Integer matchTxnID;
 
-	@Column(name="matchwltype")
+	@Column(name="MatchWLType")
 	private String matchWLType;
 
-	@Column(name="updatedt")
+	@Column(name="UpdateDT")
 	private Timestamp updateDT;
 
-	@Column(name="updateusr")
+	@Column(name="UpdateUsr")
 	private Integer updateUsr;
 
-	@Column(name="wfprocid")
+	@Column(name="WFProcID")
 	private Integer WFProcID;
 
-	@Column(name="wfstate")
+	@Column(name="WFState")
 	private String WFState;
 
 

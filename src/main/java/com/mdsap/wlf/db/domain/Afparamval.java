@@ -17,57 +17,57 @@ public class Afparamval {
     private Long id;
 
 
-    @Column(name = "code")
+    @Column(name = "Code")
     private String code;
 
 
-    @Column(name = "idxno", nullable = false)
+    @Column(name = "IdxNo", nullable = false)
     private Integer idxno;
 
 
 
-    @Column(name = "paramtype", nullable = false)
+    @Column(name = "ParamType", nullable = false)
     private String paramtype;
 
 
-    @Column(name = "paramgrpname", nullable = false)
+    @Column(name = "ParamGrpName", nullable = false)
     private String paramgrpname;
 
 
-    @Column(name = "valuetype")
+    @Column(name = "ValueType")
     private String valuetype;
 
-    @Column(name = "valueformat")
+    @Column(name = "ValueFormat")
     private String valueformat;
 
-    @Column(name = "valueunit")
+    @Column(name = "ValueUnit")
     private String valueunit;
 
-    @Column(name = "value")
+    @Column(name = "Value")
     private String value;
 
-    @Column(name = "descr")
+    @Column(name = "Descr")
     private String descr;
 
-    @Column(name = "ownersys")
+    @Column(name = "OwnerSys")
     private String ownersys;
 
-    @Column(name = "createdt")
+    @Column(name = "CreateDT")
     private Timestamp createdt;
 
-    @Column(name = "updatedt")
+    @Column(name = "UpdateDT")
     private Timestamp updatedt;
 
-    @Column(name = "createusr")
+    @Column(name = "CreateUsr")
     private Integer createusr;
 
-    @Column(name = "updateusr")
+    @Column(name = "UpdateUsr")
     private Integer updateusr;
 
-    @Column(name = "wfstate")
+    @Column(name = "WFState")
     private String wfstate;
 
-    @Column(name = "wfprocid")
+    @Column(name = "WFProcID")
     private Integer wfprocid;
 
 }

@@ -24,41 +24,41 @@ public class WLMWLData implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name="addressdata")
+	@Column(name="AddressData")
 	private String addressData;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="birthdatedata")
+	@Column(name="BirthDateData")
 	private Date birthDateData;
 
-	@Column(name="citydata")
+	@Column(name="CityData")
 	private String cityData;
 
-	@Column(name="countrydata")
+	@Column(name="CountryData")
 	private String countryData;
 
-	@Column(name="createdt")
+	@Column(name="CreateDT")
 	private Timestamp createDT;
 
-	@Column(name="createusr")
+	@Column(name="CreateUsr")
 	private Integer createUsr;
 
-	@Column(name="namedata")
+	@Column(name="NameData")
 	private String nameData;
 
-	@Column(name="tinnumberdata")
+	@Column(name="TINNumberData")
 	private String TINNumberData;
 
-	@Column(name="updatedt")
+	@Column(name="UpdateDT")
 	private Timestamp updateDT;
 
-	@Column(name="updateusr")
+	@Column(name="UpdateUsr")
 	private Integer updateUsr;
 
-	@Column(name="wfprocid")
+	@Column(name="WFProcID")
 	private Integer WFProcID;
 
-	@Column(name="wfstate")
+	@Column(name="WFState")
 	private String WFState;
 
 	@Column(name="wlmwltype")
@@ -67,7 +67,7 @@ public class WLMWLData implements Serializable {
 	@Column(name="keyword")
 	private String KeyWord;
 
-	@Column(name="publishername")
+	@Column(name="PublisherName")
 	private String PublisherName;
 
 	public String getData(String value)

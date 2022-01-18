@@ -25,7 +25,11 @@ public class StatusEngine {
 
         if(!loadMEConfig()) return false;
 
-        if(!meConfigList.get(0).getWfState().matches( MeConfigParams.STARTED)) {
+        log.info("MeConfig Status !!!");
+
+        log.info("Status : "+meConfigList.get(0).getWfState()+" so start...");
+
+        if(!meConfigList.get(0).getWfState().trim().matches( MeConfigParams.STARTED)) {
 
             log.info("Engine Status is not  'Start' !!!");
 
