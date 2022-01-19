@@ -1,5 +1,6 @@
 package com.mdsap.wlf.match;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -73,6 +74,7 @@ public class MatchAll {
 		try {
 			lastITXTxnQueueId = new ITXTxnQueueId();
 			lastITXTxnQueueId.setItxtxnqueueID(vitxtxnQueueList.get(vitxtxnQueueList.size()-1).getId());
+			lastITXTxnQueueId.setServer(InetAddress.getLocalHost().getHostAddress());
 			int allRows=wlmwlDataList.size();
 			if(allRows<vitxtxnQueueList.size())
 				allRows=vitxtxnQueueList.size();

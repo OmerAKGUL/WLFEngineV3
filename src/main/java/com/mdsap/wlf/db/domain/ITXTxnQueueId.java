@@ -24,10 +24,14 @@ public class ITXTxnQueueId implements Serializable {
     @Column(name="InsertTime")
     private Timestamp insertTime;
 
+    @Column(name="Server")
+    private String Server;
+
     public ITXTxnQueueId() {
 
         insertTime  = Timestamp.valueOf(LocalDateTime.now());
         itxtxnqueueID = null;
+        Server=null;
 
     }
 

@@ -1,6 +1,7 @@
 package com.mdsap.wlf.db.crud;
 
  
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ReadData {
 
+	@Autowired
+	private EngineClusterConfigRepository repoEngineClusterConfigRepository;
+
+	@Autowired
+	private ITXTxnQueueIdRepository repoVITXTxnQueueId;
 
 	@Autowired
 	private WLMWLDataRepository repoWLMWLData;
@@ -31,7 +37,9 @@ public class ReadData {
 	@Autowired
 	private AfparamvalRepository repoAfparamval;
 
-
+	private Integer serverConfigId;
+	private Integer vitxTxnQueueId;
+	private Integer topNTransaction;
 	private List<WLMWLData> wlmwldataList;
 	private List<ITXTxnQueue> vitxtxnQueueList;
 	private List<MEConfig> meConfigList;
@@ -76,6 +84,52 @@ public class ReadData {
 
 		}
 
+		try {
+			String ip = InetAddress.getLocalHost().getHostAddress();
+			vitxTxnQueueId   =repoVITXTxnQueueId.getMaxIdByServer(ip);
+			if(vitxTxnQueueId == null) vitxTxnQueueId=0;
+
+		}catch (Exception e)
+		{
+
+			log.error("Error when get server ip !!!");
+			return false;
+		}
+
+		try {
+			String ip = InetAddress.getLocalHost().getHostAddress();
+			topNTransaction   =repoEngineClusterConfigRepository.getMaxTopNTransactionByServer(ip);
+			if(topNTransaction == null) {
+
+				log.error("topNTransaction : Error when get Cluster Config for ip: "+ip);
+				return false;
+
+			}
+		}catch (Exception e)
+		{
+
+			log.error("Error when get Cluster Config !!!");
+			return false;
+		}
+
+
+		try {
+			String ip = InetAddress.getLocalHost().getHostAddress();
+			serverConfigId   =repoEngineClusterConfigRepository.getServerConfigIdByServer(ip);
+			if(serverConfigId == null) {
+
+				log.error("serverConfigId : Error when get Cluster Config for ip: "+ip);
+				return false;
+
+			}
+		}catch (Exception e)
+		{
+
+			log.error("Error when get Cluster Config !!!");
+			return false;
+		}
+
+
 		if(!loadWLMWLData()) return false;
 		if(!loadVITXTxnQueue()) return false;
 
@@ -91,9 +145,15 @@ public class ReadData {
 		try {
 			log.info("Reading WLMWLData list from database.");
 
-
-			wlmwldataList = (List<WLMWLData>)repoWLMWLData.findAll();
-
+            if(serverConfigId==1)
+			 wlmwldataList = (List<WLMWLData>)repoWLMWLData.getQueueV1();
+            else if (serverConfigId==2)
+				wlmwldataList = (List<WLMWLData>)repoWLMWLData.getQueueV2();
+            else
+			{
+				log.error(" Error serverConfigId must be between 1 and 2 but it is : "+serverConfigId.toString());
+				return false;
+			}
 		}catch (Exception e) {
 			// TODO: handle exception
 			log.error("Error reading WLMWLData list from database : "+e.toString());
@@ -108,8 +168,9 @@ public class ReadData {
 		try {
 			log.info("Reading vitxtxnQueueList list from database.");
 
+			//vitxtxnQueueList = (List<ITXTxnQueue>)repoVITXTxnQueue.findAll();
 
-			vitxtxnQueueList = (List<ITXTxnQueue>)repoVITXTxnQueue.findAll();
+			vitxtxnQueueList = (List<ITXTxnQueue>)repoVITXTxnQueue.getQueueByTopN(topNTransaction,vitxTxnQueueId);
 
 		}catch (Exception e) {
 			// TODO: handle exception

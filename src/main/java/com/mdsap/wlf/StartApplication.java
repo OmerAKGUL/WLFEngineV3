@@ -12,13 +12,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import  com.mdsap.wlf.engine.*;
 
+
 import javax.inject.Named;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Locale;
 
 
 @SpringBootApplication
 public class StartApplication implements CommandLineRunner {
 
     private static final Logger log = Logger.getLogger(StartApplication.class);
+
 
 
     @Autowired
@@ -42,29 +47,24 @@ public class StartApplication implements CommandLineRunner {
     private native void sayHello();
 
      @Override
-    public void run(String... args) throws InterruptedException {
+    public void run(String... args) throws InterruptedException, UnknownHostException {
 
-      /*   try {
-             emailServiceSpringBoot.sendHtmlEmail();
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
 
-*/
+
          Integer iterationCount=0;
 
-    while(true)
-    {
-        iterationCount++;
+        while(true)
+        {
+            iterationCount++;
 
-        log.info("********************************** Iteration "+iterationCount+" is Started **********************************");
-        if(statusEngine.checkStatus())
-          wlfEngine.startProcess();
-        log.info("Iteration  "+iterationCount+" is Finished");
+            log.info("********************************** Iteration "+iterationCount+" is Started **********************************");
+            if(statusEngine.checkStatus())
+              wlfEngine.startProcess();
+            log.info("Iteration  "+iterationCount+" is Finished");
 
-        log.info("Sleep Engine for 5 minutes");
-        Thread.sleep(5*60*1000);
-    } 
+            log.info("Sleep Engine for 5 minutes");
+            Thread.sleep(5*60*1000);
+        }
 
     }
 

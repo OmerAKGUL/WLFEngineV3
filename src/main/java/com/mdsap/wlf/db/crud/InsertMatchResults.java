@@ -1,5 +1,6 @@
 package com.mdsap.wlf.db.crud;
 
+import java.net.UnknownHostException;
 import java.util.List;
 
 
@@ -13,7 +14,7 @@ import org.apache.log4j.Logger;
 
 import com.mdsap.wlf.db.domain.MEMatchResult;
 import com.mdsap.wlf.db.repository.MEMatchResultRepository;
-
+import java.net.InetAddress;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +43,22 @@ public class InsertMatchResults {
  
 	
 	
-	 public Boolean insertAllMatchResults(List<MEMatchResult> meMatchResult_N, List<ITXTxnQueueMatchedArchive> itXTxnQueueMatchedArchive_N, ITXTxnQueueId lastITXTxnQueueId) {
+	 public Boolean insertAllMatchResults(List<MEMatchResult> meMatchResult_N, List<ITXTxnQueueMatchedArchive> itXTxnQueueMatchedArchive_N, ITXTxnQueueId lastITXTxnQueueId)  {
 
-		 
+
+
+
+
 		 if(meMatchResult_N == null || meMatchResult_N.isEmpty())
 		 {
 
+
 			 try {
-			 	if(lastITXTxnQueueId != null)
-				 repoITXTxnQueueIdRepository.save(lastITXTxnQueueId);
+			 	if(lastITXTxnQueueId != null) {
+
+
+					repoITXTxnQueueIdRepository.save(lastITXTxnQueueId);
+				}
 
 			 } catch (Exception e) {
 
