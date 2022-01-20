@@ -37,7 +37,7 @@ public class ReadData {
 	@Autowired
 	private AfparamvalRepository repoAfparamval;
 
-	private Integer serverConfigId;
+	private String ServerConfigType;
 	private Integer vitxTxnQueueId;
 	private Integer topNTransaction;
 	private List<WLMWLData> wlmwldataList;
@@ -115,10 +115,12 @@ public class ReadData {
 
 		try {
 			String ip = InetAddress.getLocalHost().getHostAddress();
-			serverConfigId   =repoEngineClusterConfigRepository.getServerConfigIdByServer(ip);
-			if(serverConfigId == null) {
+			ServerConfigType   =repoEngineClusterConfigRepository.getServerConfigIdByServer(ip);
+			if(ServerConfigType == null) {
 
-				log.error("serverConfigId : Error when get Cluster Config for ip: "+ip);
+				log.error("ServerConfigType : Error when get Cluster Config for ip: "+ip);
+				log.error(" Error ServerConfigType must be "+AfparamvalParams.SERVER_CONFIG_TYPE_PART1
+						+", "+AfparamvalParams.SERVER_CONFIG_TYPE_PART2+" or "+AfparamvalParams.SERVER_CONFIG_TYPE_FULL+" but it is : "+ServerConfigType);
 				return false;
 
 			}
@@ -145,13 +147,16 @@ public class ReadData {
 		try {
 			log.info("Reading WLMWLData list from database.");
 
-            if(serverConfigId==1)
-			 wlmwldataList = (List<WLMWLData>)repoWLMWLData.getQueueV1();
-            else if (serverConfigId==2)
-				wlmwldataList = (List<WLMWLData>)repoWLMWLData.getQueueV2();
+            if(ServerConfigType.equals(AfparamvalParams.SERVER_CONFIG_TYPE_PART1))
+			 wlmwldataList = (List<WLMWLData>)repoWLMWLData.getQueuePart1();
+            else if (ServerConfigType.equals(AfparamvalParams.SERVER_CONFIG_TYPE_PART2))
+				wlmwldataList = (List<WLMWLData>)repoWLMWLData.getQueuePart2();
+			else if (ServerConfigType.equals(AfparamvalParams.SERVER_CONFIG_TYPE_FULL))
+				wlmwldataList = (List<WLMWLData>)repoWLMWLData.getQueueFull();
             else
 			{
-				log.error(" Error serverConfigId must be between 1 and 2 but it is : "+serverConfigId.toString());
+				log.error(" Error ServerConfigType must be "+AfparamvalParams.SERVER_CONFIG_TYPE_PART1
+						+", "+AfparamvalParams.SERVER_CONFIG_TYPE_PART2+" or "+AfparamvalParams.SERVER_CONFIG_TYPE_FULL+" but it is : "+ServerConfigType);
 				return false;
 			}
 		}catch (Exception e) {

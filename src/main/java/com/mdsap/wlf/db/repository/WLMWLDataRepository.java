@@ -16,10 +16,12 @@ public interface WLMWLDataRepository extends CrudRepository<WLMWLData, Integer> 
 
 
     @Query(value="SELECT * from  WLF.VTopWLMWLData  where id%2 =0 ", nativeQuery = true)
-    public  List<WLMWLData> getQueueV1();
+    public  List<WLMWLData> getQueuePart1();
 
     @Query(value="SELECT * from  WLF.VTopWLMWLData  where id%2 =1 ", nativeQuery = true)
-    public  List<WLMWLData> getQueueV2();
+    public  List<WLMWLData> getQueuePart2();
 
+    @Query(value="SELECT * from  WLF.VTopWLMWLData ", nativeQuery = true)
+    public  List<WLMWLData> getQueueFull();
 
 }

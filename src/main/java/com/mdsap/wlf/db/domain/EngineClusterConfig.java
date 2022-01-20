@@ -18,8 +18,8 @@ public class EngineClusterConfig {
     @Column(name="Server")
     private String Server;
 
-    @Column(name="ServerConfigId")
-    private Integer ServerConfigId;
+    @Column(name="ServerConfigType")
+    private String ServerConfigType;
 
     @Column(name="TopNTransaction")
     private Integer TopNTransaction;

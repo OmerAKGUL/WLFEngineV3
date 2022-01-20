@@ -12,6 +12,6 @@ public interface EngineClusterConfigRepository extends CrudRepository<EngineClus
     @Query(value="SELECT max(TopNTransaction) from  WLF.EngineClusterConfig where Server = ?1  ", nativeQuery = true)
     public  Integer  getMaxTopNTransactionByServer(String server);
 
-    @Query(value="SELECT max(ServerConfigId) from  WLF.EngineClusterConfig where Server = ?1  ", nativeQuery = true)
-    public  Integer  getServerConfigIdByServer(String server);
+    @Query(value="SELECT max(ServerConfigType) from  WLF.EngineClusterConfig where Server = ?1  ", nativeQuery = true)
+    public  String  getServerConfigIdByServer(String server);
 }

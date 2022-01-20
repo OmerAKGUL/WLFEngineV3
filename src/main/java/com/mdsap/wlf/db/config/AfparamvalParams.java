@@ -29,4 +29,9 @@ public class AfparamvalParams {
 
 
     public static final String MATCH_FIELD_BIRTH_DATE = "MF.BirthDate";
+
+    public static final String SERVER_CONFIG_TYPE_PART1 = "PART1";
+    public static final String SERVER_CONFIG_TYPE_PART2 = "PART2";
+    public static final String SERVER_CONFIG_TYPE_FULL = "FULL";
+
 }
