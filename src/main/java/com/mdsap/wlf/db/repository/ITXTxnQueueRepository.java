@@ -16,9 +16,11 @@ public interface ITXTxnQueueRepository extends CrudRepository<ITXTxnQueue, Integ
     @Query(value="SELECT * from  WLF.VTopITXTxnQueue   ", nativeQuery = true)
     public  List<ITXTxnQueue> getQueue();
 
-    @Query(value="SELECT TOP ?1 * from  WLF.ITXTxnQueue   where id >  ?2", nativeQuery = true)
-    public  List<ITXTxnQueue> getQueueByTopN(Integer topN,Integer byId);
+   // @Query(value="SELECT TOP ?1 * from  WLF.ITXTxnQueue   where id >  ?2", nativeQuery = true)
+   // public  List<ITXTxnQueue> getQueueByTopN(Integer topN,Integer byId);
 
+    @Query(value="SELECT Top 10000 * from  WLF.VTopITXTxnQueue   where id >  ?1", nativeQuery = true)
+    public  List<ITXTxnQueue> getQueueByTopN(Integer byId);
 
     public List<ITXTxnQueue> findByIdGreaterThan(Integer id);
 

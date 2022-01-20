@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface EngineClusterConfigRepository extends CrudRepository<EngineClusterConfig, Integer> {
 
 
-    @Query(value="SELECT max(TopNTransaction) from  WLF.EngineClusterConfig where Server = ?1  ", nativeQuery = true)
-    public  Integer  getMaxTopNTransactionByServer(String server);
 
     @Query(value="SELECT max(ServerConfigType) from  WLF.EngineClusterConfig where Server = ?1  ", nativeQuery = true)
     public  String  getServerConfigIdByServer(String server);

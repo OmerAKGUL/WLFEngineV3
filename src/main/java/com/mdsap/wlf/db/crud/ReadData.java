@@ -39,7 +39,7 @@ public class ReadData {
 
 	private String ServerConfigType;
 	private Integer vitxTxnQueueId;
-	private Integer topNTransaction;
+
 	private List<WLMWLData> wlmwldataList;
 	private List<ITXTxnQueue> vitxtxnQueueList;
 	private List<MEConfig> meConfigList;
@@ -88,7 +88,8 @@ public class ReadData {
 			String ip = InetAddress.getLocalHost().getHostAddress();
 			vitxTxnQueueId   =repoVITXTxnQueueId.getMaxIdByServer(ip);
 			if(vitxTxnQueueId == null) vitxTxnQueueId=0;
-
+			log.info("Server Ip is : "+ip);
+			log.info("Max vitxTxnQueueId by Server Ip is : "+vitxTxnQueueId.toString());
 		}catch (Exception e)
 		{
 
@@ -96,21 +97,7 @@ public class ReadData {
 			return false;
 		}
 
-		try {
-			String ip = InetAddress.getLocalHost().getHostAddress();
-			topNTransaction   =repoEngineClusterConfigRepository.getMaxTopNTransactionByServer(ip);
-			if(topNTransaction == null) {
 
-				log.error("topNTransaction : Error when get Cluster Config for ip: "+ip);
-				return false;
-
-			}
-		}catch (Exception e)
-		{
-
-			log.error("Error when get Cluster Config !!!");
-			return false;
-		}
 
 
 		try {
@@ -124,6 +111,8 @@ public class ReadData {
 				return false;
 
 			}
+			log.info("Server Ip is : "+ip);
+			log.info("ServerConfigType by Server Ip is : "+ServerConfigType);
 		}catch (Exception e)
 		{
 
@@ -175,8 +164,8 @@ public class ReadData {
 
 			//vitxtxnQueueList = (List<ITXTxnQueue>)repoVITXTxnQueue.findAll();
 
-			vitxtxnQueueList = (List<ITXTxnQueue>)repoVITXTxnQueue.getQueueByTopN(topNTransaction,vitxTxnQueueId);
 
+			vitxtxnQueueList = (List<ITXTxnQueue>)repoVITXTxnQueue.getQueueByTopN(vitxTxnQueueId);
 		}catch (Exception e) {
 			// TODO: handle exception
 			log.error("Error reading vitxtxnQueue list from database : "+e.toString());

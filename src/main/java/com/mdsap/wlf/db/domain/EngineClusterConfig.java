@@ -21,7 +21,5 @@ public class EngineClusterConfig {
     @Column(name="ServerConfigType")
     private String ServerConfigType;
 
-    @Column(name="TopNTransaction")
-    private Integer TopNTransaction;
 
 }
