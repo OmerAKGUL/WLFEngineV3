@@ -22,4 +22,8 @@ public class EngineClusterConfig {
     private String ServerConfigType;
 
 
+    @Column(name="ThreadNumber")
+    private Integer ThreadNumber;
+
+
 }

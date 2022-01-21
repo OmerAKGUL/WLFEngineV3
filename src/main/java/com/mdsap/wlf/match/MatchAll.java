@@ -46,10 +46,11 @@ public class MatchAll {
 		meMatchResult = new ArrayList<MEMatchResult>();
 		mailResultList= new ArrayList<MailResult>();
 		lastITXTxnQueueId = null;
+		threadCount=Runtime.getRuntime().availableProcessors()-2;
 		//wlmwlDataList = new ArrayList<WLMWLData>();
 		//vitxtxnQueueDevList = new ArrayList<VITXTxnQueue>();
 
-		threadCount = Runtime.getRuntime().availableProcessors();
+
 		threads = new ArrayList<MatchThreadPoolV1>();
 
 		executor = Executors.newFixedThreadPool(threadCount);
@@ -58,6 +59,13 @@ public class MatchAll {
 
 	public List<MEMatchResult> processMatch()
 	{
+
+		if(threadCount<1)
+			threadCount = Runtime.getRuntime().availableProcessors()-2;
+		if(threadCount<1) {
+			log.warn("There isn't enough source to start !!! threadCount is :"+threadCount);
+			return null;
+		}
 		log.info( "Black List Size : "+wlmwlDataList.size());
 		log.info( "Transaction List Size : "+vitxtxnQueueList.size());
 		if(vitxtxnQueueList.size()==0) {
@@ -70,6 +78,8 @@ public class MatchAll {
 			log.warn("There isn't any black list record !!!");
 			return null;
 		}
+
+
 
 		try {
 			lastITXTxnQueueId = new ITXTxnQueueId();

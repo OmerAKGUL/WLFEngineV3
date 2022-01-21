@@ -52,8 +52,7 @@ public class WlfEngine {
 		matchAll.setMatchProperitiesList(config.getMatchProperitiesList());
 	    matchAll.setWlmwlDataList(config.getWlmwldataList());
 	    matchAll.setVitxtxnQueueList(config.getVitxtxnQueueList());
-	    
- 
+	    matchAll.setThreadCount(config.getThreadNumber());
 	    
 	    List<MEMatchResult> meMatchResult = matchAll.processMatch();
 

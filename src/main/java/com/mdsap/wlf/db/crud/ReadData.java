@@ -39,7 +39,7 @@ public class ReadData {
 
 	private String ServerConfigType;
 	private Integer vitxTxnQueueId;
-
+    private Integer threadNumber;
 	private List<WLMWLData> wlmwldataList;
 	private List<ITXTxnQueue> vitxtxnQueueList;
 	private List<MEConfig> meConfigList;
@@ -113,6 +113,18 @@ public class ReadData {
 			}
 			log.info("Server Ip is : "+ip);
 			log.info("ServerConfigType by Server Ip is : "+ServerConfigType);
+		}catch (Exception e)
+		{
+
+			log.error("Error when get Cluster Config !!!");
+			return false;
+		}
+		try {
+			String ip = InetAddress.getLocalHost().getHostAddress();
+			threadNumber   =repoEngineClusterConfigRepository.getServerConfigThreadNumberByServer(ip);
+
+			log.info("Server Ip is : "+ip);
+			log.info("threadNumber by Server Ip is : "+threadNumber.toString());
 		}catch (Exception e)
 		{
 
