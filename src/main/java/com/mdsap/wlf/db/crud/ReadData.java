@@ -132,9 +132,15 @@ public class ReadData {
 			return false;
 		}
 
-
-		if(!loadWLMWLData()) return false;
 		if(!loadVITXTxnQueue()) return false;
+
+		log.info( "Transaction List Size : "+vitxtxnQueueList.size());
+		if(vitxtxnQueueList.size()>0)
+			if(!loadWLMWLData()) return false;
+		else
+			log.warn("There isn't any new transaction!!! So dont load black list!! ");
+
+
 
 		log.info("Close database transaction.");
 		return true;
