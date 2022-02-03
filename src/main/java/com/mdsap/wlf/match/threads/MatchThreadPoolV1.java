@@ -263,7 +263,7 @@ public class MatchThreadPoolV1 implements Runnable {
 		double scoreOfTotall=0;
 		double remainScore=100;
 		// look for identity
-		if(vitxtxnQueue.getScnationalid() != null )
+		if(vitxtxnQueue.getScnationalid().length() == 11 )
 			scoreOfIdentity= matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(),vitxtxnQueue.getScnationalid());
 
 		if(scoreOfIdentity==100) return scoreOfIdentity;
@@ -348,7 +348,7 @@ public class MatchThreadPoolV1 implements Runnable {
 		double remainScore=100;
 
 		// look for identity
-		if(vitxtxnQueue.getRcnationalid() != null )
+		if(vitxtxnQueue.getRcnationalid() .length() == 11 )
 			scoreOfIdentity=matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());
 
 		if(scoreOfIdentity==100) return scoreOfIdentity;
