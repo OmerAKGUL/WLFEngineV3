@@ -263,11 +263,14 @@ public class MatchThreadPoolV1 implements Runnable {
 		double scoreOfTotall=0;
 		double remainScore=100;
 		// look for identity
-		if(vitxtxnQueue.getScnationalid().length() == 11 )
-			scoreOfIdentity= matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(),vitxtxnQueue.getScnationalid());
-
-		if(scoreOfIdentity==100) return scoreOfIdentity;
-
+		if(vitxtxnQueue.getScnationalid().length() == 11 ) {
+			if(!vitxtxnQueue.getScnationalid().substring(0,2).equals("99"))
+			{
+				scoreOfIdentity = matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(), vitxtxnQueue.getScnationalid());
+				//if(scoreOfIdentity==100) return scoreOfIdentity;
+		       return scoreOfIdentity;
+			}
+		}
 
 		// look for identity
 		scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getScnationalid());
@@ -349,11 +352,11 @@ public class MatchThreadPoolV1 implements Runnable {
 
 		// look for identity
 		if(vitxtxnQueue.getRcnationalid() .length() == 11 )
-			scoreOfIdentity=matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());
-
-		if(scoreOfIdentity==100) return scoreOfIdentity;
-
-
+			if(!vitxtxnQueue.getRcnationalid().substring(0,2).equals("99")) {
+				scoreOfIdentity = matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(), vitxtxnQueue.getRcnationalid());
+               return scoreOfIdentity;
+				//if(scoreOfIdentity==100) return scoreOfIdentity;
+			}
 		// look for identity
 		scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());
 		scoreOfTotall = scoreOfTotall+scoreOfIdentity*(percentageOfIdentity/100);

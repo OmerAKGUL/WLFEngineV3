@@ -63,7 +63,7 @@ public class StartApplication implements CommandLineRunner {
             log.info("Iteration  "+iterationCount+" is Finished");
 
             log.info("Sleep Engine for 5 minutes");
-            Thread.sleep(1*60*1000);
+            Thread.sleep(5*60*1000);
         }
 
     }
