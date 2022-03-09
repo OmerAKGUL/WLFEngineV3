@@ -8,6 +8,7 @@ import com.mdsap.wlf.db.domain.enumeration.Addrtype;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -246,7 +247,60 @@ public class ITXTxnQueueMatchedArchive implements Serializable {
     @Column(name="MatchTxnId")
     private Integer matchTxnID;
 
-
+    @Column(name="SCMobilePhone")
+    private String SCMobilePhone;
+    @Column(name="SCEmail")
+    private String SCEmail;
+    @Column(name = "SCDateofNationalID")
+    private Timestamp SCDateofNationalID;
+    @Column(name = "SCValidityDateofNationalID")
+    private Timestamp SCValidityDateofNationalID;
+    @Column(name="SCNationalIDCounty")
+    private String SCNationalIDCounty;
+    @Column(name="SCCounty")
+    private String SCCounty;
+    @Column(name="SCAccountNo")
+    private String SCAccountNo;
+    @Column(name="RCPlaceofBirth")
+    private String RCPlaceofBirth;
+    @Column(name="RCProfession")
+    private String RCProfession;
+    @Column(name="RCMobilePhone")
+    private String RCMobilePhone;
+    @Column(name="RCEmail")
+    private String RCEmail;
+    @Column(name = "RCDateofNationalID")
+    private Timestamp RCDateofNationalID;
+    @Column(name="RCValidityDateofNationalID")
+    private Timestamp RCValidityDateofNationalID;
+    @Column(name="RCNationalIDCounty")
+    private String RCNationalIDCounty;
+    @Column(name="RCCounty")
+    private String RCCounty;
+    @Column(name="RCAccountNo")
+    private String RCAccountNo;
+    @Column(name="CenterName")
+    private String CenterName;
+    @Column(name="CenterNo")
+    private BigDecimal CenterNo;
+    @Column(name="PeymentCenterName")
+    private String PeymentCenterName;
+    @Column(name="PeymentCenterNo")
+    private BigDecimal PeymentCenterNo;
+    @Column(name="ExchangeRate")
+    private BigDecimal ExchangeRate;
+    @Column(name="TLAmount")
+    private BigDecimal TLAmount;
+    @Column(name="Cost")
+    private BigDecimal Cost;
+    @Column(name="CostType")
+    private String CostType;
+    @Column(name="PeymentType")
+    private String PeymentType;
+    @Column(name="PurposeofUsage")
+    private String PurposeofUsage;
+    @Column(name="SCRCRelation")
+    private String SCRCRelation;
     public ITXTxnQueueMatchedArchive() {
 
         matchedarchivedate  = Timestamp.valueOf(LocalDateTime.now());

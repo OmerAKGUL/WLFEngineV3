@@ -2,6 +2,7 @@ package com.mdsap.wlf.db.domain;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 
 import com.mdsap.wlf.db.config.AfparamvalParams;
 import com.mdsap.wlf.db.domain.enumeration.Addrtype;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 
@@ -229,12 +231,66 @@ public class ITXTxnQueue implements Serializable {
 
 	@Column(name="TxnTypeID")
 	private Integer txntypeid;
-
 	@Column(name="TxnCurrency")
 	private String txncurrency;
-
 	@Column(name="ETLJobType")
 	private Integer etljobtype;
+
+
+	@Column(name="SCMobilePhone")
+	private String SCMobilePhone;
+	@Column(name="SCEmail")
+	private String SCEmail;
+	@Column(name = "SCDateofNationalID")
+	private Timestamp SCDateofNationalID;
+	@Column(name = "SCValidityDateofNationalID")
+	private Timestamp SCValidityDateofNationalID;
+	@Column(name="SCNationalIDCounty")
+	private String SCNationalIDCounty;
+	@Column(name="SCCounty")
+	private String SCCounty;
+	@Column(name="SCAccountNo")
+	private String SCAccountNo;
+	@Column(name="RCPlaceofBirth")
+	private String RCPlaceofBirth;
+	@Column(name="RCProfession")
+	private String RCProfession;
+	@Column(name="RCMobilePhone")
+	private String RCMobilePhone;
+	@Column(name="RCEmail")
+	private String RCEmail;
+	@Column(name = "RCDateofNationalID")
+	private Timestamp RCDateofNationalID;
+	@Column(name="RCValidityDateofNationalID")
+	private Timestamp RCValidityDateofNationalID;
+	@Column(name="RCNationalIDCounty")
+	private String RCNationalIDCounty;
+	@Column(name="RCCounty")
+	private String RCCounty;
+	@Column(name="RCAccountNo")
+	private String RCAccountNo;
+	@Column(name="CenterName")
+	private String CenterName;
+	@Column(name="CenterNo")
+	private BigDecimal CenterNo;
+	@Column(name="PeymentCenterName")
+	private String PeymentCenterName;
+	@Column(name="PeymentCenterNo")
+	private BigDecimal PeymentCenterNo;
+	@Column(name="ExchangeRate")
+	private BigDecimal ExchangeRate;
+	@Column(name="TLAmount")
+	private BigDecimal TLAmount;
+	@Column(name="Cost")
+	private BigDecimal Cost;
+	@Column(name="CostType")
+	private String CostType;
+	@Column(name="PeymentType")
+	private String PeymentType;
+	@Column(name="PurposeofUsage")
+	private String PurposeofUsage;
+	@Column(name="SCRCRelation")
+	private String SCRCRelation;
 
 	public String getDataSc(String value)
 	{
@@ -349,6 +405,36 @@ public class ITXTxnQueue implements Serializable {
 		row.setTxntypeid(this.getTxntypeid());
 		row.setTxncurrency(this.getTxncurrency());
 		row.setEtljobtype(this.getEtljobtype());
+
+
+		row.setSCMobilePhone(this.getSCMobilePhone());
+		row.setSCEmail(this.getSCEmail());
+		row.setSCDateofNationalID(this.getSCDateofNationalID());
+		row.setSCValidityDateofNationalID(this.getSCValidityDateofNationalID());
+		row.setSCNationalIDCounty(this.getSCNationalIDCounty());
+		row.setSCCounty(this.getSCCounty());
+		row.setSCAccountNo(this.getSCAccountNo());
+		row.setRCPlaceofBirth(this.getRCPlaceofBirth());
+		row.setRCProfession(this.getRCProfession());
+		row.setRCMobilePhone(this.getRCMobilePhone());
+		row.setRCEmail(this.getRCEmail());
+		row.setRCDateofNationalID(this.getRCDateofNationalID());
+		row.setRCValidityDateofNationalID(this.getRCValidityDateofNationalID());
+		row.setRCNationalIDCounty(this.getRCNationalIDCounty());
+		row.setRCCounty(this.getRCCounty());
+		row.setRCAccountNo(this.getRCAccountNo());
+		row.setCenterName(this.getCenterName());
+		row.setCenterNo(this.getCenterNo());
+		row.setPeymentCenterName(this.getPeymentCenterName());
+		row.setPeymentCenterNo(this.getPeymentCenterNo());
+		row.setExchangeRate(this.getExchangeRate());
+		row.setTLAmount(this.getTLAmount());
+		row.setCost(this.getCost());
+		row.setCostType(this.getCostType());
+		row.setPeymentType(this.getPeymentType());
+		row.setPurposeofUsage(this.getPurposeofUsage());
+		row.setSCRCRelation(this.getSCRCRelation());
+
 		return row;
 	}
 
