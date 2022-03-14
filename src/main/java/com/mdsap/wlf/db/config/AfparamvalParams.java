@@ -19,7 +19,7 @@ public class AfparamvalParams {
     public final static String MATCH_ALGORITHM_VALUE="TRUE";
 
     public final static String MATCH_FIELDS_GROUP_NAME_V1 ="Match.Fields";
-    public final static String MATCH_FIELDS_GROUP_NAME_V2 ="Match.Fields";
+    public final static String MATCH_FIELDS_GROUP_NAME_V2 ="PTT.Liste.Match.Fields";
 
     public final static String MATCH_FIELD_FULL_NAME ="MF.FullName";
     public final static String MATCH_FIELD_CITY ="MF.City";
