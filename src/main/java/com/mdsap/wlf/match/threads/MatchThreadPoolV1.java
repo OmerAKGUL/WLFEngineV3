@@ -16,12 +16,12 @@ import lombok.Data;
 import com.mdsap.wlf.db.domain.*;
 
 import org.apache.log4j.Logger;
- 
+
 @Data
 public class MatchThreadPoolV1 implements Runnable {
-	  
+
 	private static Logger log  = Logger.getLogger(MatchThreadPoolV1.class);
-	
+
 
 	private String threadName;
 	private  List<MailResult> mailResultList;
@@ -42,160 +42,174 @@ public class MatchThreadPoolV1 implements Runnable {
 
 
 
-	
-	
-    private Boolean isFinish;
-	   
-    
-	public MatchThreadPoolV1(String name) {
-	 
-	      threadName = name;
-	      matchAlgorithms = new Algorithms();
-	      mailResultList = new ArrayList<MailResult>();
-	      matchProperitiesList = new ArrayList<MatchProperities>();
-	      meMatchResult = new ArrayList<MEMatchResult>();
 
-		  itXTxnQueueMatchedArchive =  new ArrayList<ITXTxnQueueMatchedArchive>();
-	      
-	      setIsFinish(false);
-	   }
-	
+
+	private Boolean isFinish;
+
+
+	public MatchThreadPoolV1(String name) {
+
+		threadName = name;
+		matchAlgorithms = new Algorithms();
+		mailResultList = new ArrayList<MailResult>();
+		matchProperitiesList = new ArrayList<MatchProperities>();
+		meMatchResult = new ArrayList<MEMatchResult>();
+
+		itXTxnQueueMatchedArchive =  new ArrayList<ITXTxnQueueMatchedArchive>();
+
+		setIsFinish(false);
+	}
+
 	public MatchThreadPoolV1(String name, List<ITXTxnQueue> vitxtxnQueueDevList, List<WLMWLData> wlmwlDataList, MatchProperities matchProperities,List<MatchProperities> matchProperitiesList) {
-	     
-	 
-		
-		  threadName = name;
-		  setMatchProperitiesList(matchProperitiesList);
-		  setMatchProperities(matchProperities);
-	      setWlmwlDataList(wlmwlDataList);
-	      setVitxtxnQueueList(vitxtxnQueueDevList);
-	      mailResultList = new ArrayList<MailResult>();
-	      matchAlgorithms = new Algorithms(matchProperities.getAlgoritmType());
-	      meMatchResult = new ArrayList<MEMatchResult>();
-		  itXTxnQueueMatchedArchive =  new ArrayList<ITXTxnQueueMatchedArchive>();
-	      setIsFinish(false);
-	      
-	   }
-	
+
+
+
+		threadName = name;
+		setMatchProperitiesList(matchProperitiesList);
+		setMatchProperities(matchProperities);
+		setWlmwlDataList(wlmwlDataList);
+		setVitxtxnQueueList(vitxtxnQueueDevList);
+		mailResultList = new ArrayList<MailResult>();
+		matchAlgorithms = new Algorithms(matchProperities.getAlgoritmType());
+		meMatchResult = new ArrayList<MEMatchResult>();
+		itXTxnQueueMatchedArchive =  new ArrayList<ITXTxnQueueMatchedArchive>();
+		setIsFinish(false);
+
+	}
+
 
 	public void run() {
-		
-		 
+
+
 		if(vitxtxnQueueList == null || wlmwlDataList==null) {
-			
+
 			log.warn("Thread " +  getThreadName() + " is not start because of null values of list");
 			return;
 		}
-	      try {
-	         
-	    	  log.info("Thread " +  getThreadName() + " is start");
-			  log.info("Thread " +  getThreadName() + " Black List Size : "+wlmwlDataList.size());
-			  log.info( "Thread " +  getThreadName() +" Transaction List Size : "+vitxtxnQueueList.size());
+		try {
 
-	    	  int i =0;
+			log.info("Thread " +  getThreadName() + " is start");
+			log.info("Thread " +  getThreadName() + " Black List Size : "+wlmwlDataList.size());
+			log.info( "Thread " +  getThreadName() +" Transaction List Size : "+vitxtxnQueueList.size());
 
-	    	  for (ITXTxnQueue tran : vitxtxnQueueList) {
-				
-	    		  for (WLMWLData bl : wlmwlDataList) {
+			int i =0;
 
+			for (ITXTxnQueue tran : vitxtxnQueueList) {
 
-					  if(bl.getPublisherName().equals(AfparamvalParams.MATCH_REFINITIVE_LIST_TYPE))
-					  {
-						  fieldList=matchProperitiesList.get(0).getFieldList();// matchProperities.getFieldList();
-						  matchingScore =matchProperitiesList.get(0).getMatchingScore();//matchProperities.getMatchingScore();
-						  matchAlgorithms.setAlgoritmType(matchProperitiesList.get(0).getAlgoritmType());
-					  }else
-					  {
-						  fieldList=matchProperitiesList.get(1).getFieldList();// matchProperities.getFieldList();
-						  matchingScore =matchProperitiesList.get(1).getMatchingScore();//matchProperities.getMatchingScore();
-						  matchAlgorithms.setAlgoritmType(matchProperitiesList.get(1).getAlgoritmType());
-
-					  }
-
-					  getFieldPercentage();
-
-	    			  int totalScore= this.getScore(bl,tran);
-
-	    			  if(totalScore>=matchingScore) {
-
-	    			  	 ITXTxnQueueMatchedArchive matchTran = tran.getRowAsMatchedArchive();
-	    			  	 matchTran.setMatchCtxID(bl.getWFProcID());
-	    			  	 itXTxnQueueMatchedArchive.add(matchTran);
+				for (WLMWLData bl : wlmwlDataList) {
 
 
+					if(bl.getPublisherName().equals(AfparamvalParams.MATCH_REFINITIVE_LIST_TYPE))
+					{
+						fieldList=matchProperitiesList.get(0).getFieldList();// matchProperities.getFieldList();
+						matchingScore =matchProperitiesList.get(0).getMatchingScore();//matchProperities.getMatchingScore();
+						matchAlgorithms.setAlgoritmType(matchProperitiesList.get(0).getAlgoritmType());
+					}else
+					{
+						fieldList=matchProperitiesList.get(1).getFieldList();// matchProperities.getFieldList();
+						matchingScore =matchProperitiesList.get(1).getMatchingScore();//matchProperities.getMatchingScore();
+						matchAlgorithms.setAlgoritmType(matchProperitiesList.get(1).getAlgoritmType());
 
-						  MEMatchResult result = new MEMatchResult();
-						  result.setWFState(bl.getWFState());
-						  result.setWFProcID(bl.getWFProcID());
-						  result.setMatchWLType(bl.getWLType());
-						  result.setMatchCtxID(bl.getWFProcID());
-						  result.setMatchTxnID(tran.getId());
-						  result.setMatchScore(BigDecimal.valueOf(totalScore));
-						  meMatchResult.add(result);
+					}
 
-						  MailResult mailresult = new MailResult();
-						  mailresult.setKeyWord(bl.getKeyWord());
-						  mailresult.setMatchScore(totalScore);
-						  mailresult.setBlakListUid(bl.getId());
-						  mailresult.setBlakListType(bl.getWLType());
-						  mailresult.setBlakListName(bl.getNameData());
-						  mailresult.setBlakListCountry(bl.getCountryData());
-						  mailresult.setBlakListTINNumber(bl.getTINNumberData());
+					getFieldPercentage();
 
-						  mailresult.setTransactionId(tran.getId());
-						  mailresult.setTxnchanneltype(tran.getTxnchanneltype());
-						  mailresult.setTxnprodname(tran.getTxnprodname());
-						  mailresult.setTxnsysid(tran.getTxnsysid());
+					int totalScore= this.getScore(bl,tran);
 
-						  mailresult.setScfullname(tran.getScfullname());
-						  mailresult.setScnationality(tran.getScnationality());
-						  mailresult.setScnationalid(tran.getScnationalid());
+					if(totalScore>=matchingScore) {
 
-						  mailresult.setRcfullname(tran.getRcfullname());
-						  mailresult.setRcnationality(tran.getRcnationality());
-						  mailresult.setRcnationalid(tran.getRcnationalid());
-						  mailResultList.add(mailresult);
+						ITXTxnQueueMatchedArchive matchTran = tran.getRowAsMatchedArchive();
+						matchTran.setMatchCtxID(bl.getWFProcID());
+						itXTxnQueueMatchedArchive.add(matchTran);
 
-					  }
 
-	    			 
-	    		  }
 
-	    		  i++;
-	    		  if(i%1000==0)
-					  log.info("Thread " +  getThreadName() + " finished transaction count is "+i);
+						MEMatchResult result = new MEMatchResult();
+						result.setWFState(bl.getWFState());
+						result.setWFProcID(bl.getWFProcID());
+						result.setMatchWLType(bl.getWLType());
+						result.setMatchCtxID(bl.getWFProcID());
+						result.setMatchTxnID(tran.getId());
+						result.setMatchScore(BigDecimal.valueOf(totalScore));
+						meMatchResult.add(result);
 
-			    }
-	    	  
-	      }catch (Exception e) {
-	    	  
-	    	  log.warn("Thread " +  getThreadName() + " interrupted.");
-	    	  log.error( "Thread " + getThreadName() +" "+e.toString());
-	    	  
-	    	  setIsFinish(true);
-	      }
-	    
-	       setIsFinish(true);
-	       
-	       log.info( getThreadName() +" is finish");
-	       
-	      
+						MailResult mailresult = new MailResult();
+						mailresult.setKeyWord(bl.getKeyWord());
+						mailresult.setMatchScore(totalScore);
+						mailresult.setBlakListUid(bl.getId());
+						mailresult.setBlakListType(bl.getWLType());
+						mailresult.setBlakListName(bl.getNameData());
+						mailresult.setBlakListCountry(bl.getCountryData());
+						mailresult.setBlakListTINNumber(bl.getTINNumberData());
+
+						mailresult.setTransactionId(tran.getId());
+						mailresult.setTxnchanneltype(tran.getTxnchanneltype());
+						mailresult.setTxnprodname(tran.getTxnprodname());
+						mailresult.setTxnsysid(tran.getTxnsysid());
+
+						mailresult.setScfullname(tran.getScfullname());
+						mailresult.setScnationality(tran.getScnationality());
+						mailresult.setScnationalid(tran.getScnationalid());
+
+						mailresult.setRcfullname(tran.getRcfullname());
+						mailresult.setRcnationality(tran.getRcnationality());
+						mailresult.setRcnationalid(tran.getRcnationalid());
+
+
+						mailResultList.add(mailresult);
+
+
+
+					}
+
+
+				}
+
+				i++;
+				if(i%1000==0)
+					log.info("Thread " +  getThreadName() + " finished transaction count is "+i);
+
+			}
+
+		}catch (Exception e) {
+
+			log.warn("Thread " +  getThreadName() + " interrupted.");
+			log.error( "Thread " + getThreadName() +" "+e.toString());
+
+			setIsFinish(true);
+		}
+
+		setIsFinish(true);
+
+		log.info( getThreadName() +" is finish");
+
+
 	}
-	   
+
 
 	private int getScore(WLMWLData wlmwlData, ITXTxnQueue vitxtxnQueue )
 	{
 
-		double totalScoreSc =getScoreOfSc(wlmwlData,vitxtxnQueue);
-		if(totalScoreSc>=matchingScore)
-			return (int)(totalScoreSc);
+		try {
+			double totalScoreSc =getScoreOfSc(wlmwlData,vitxtxnQueue);
+			if(totalScoreSc>=matchingScore)
+				return (int)(totalScoreSc);
 
 
-		double totalScoreRc =getScoreOfRc(wlmwlData,vitxtxnQueue);
-		if(totalScoreSc>totalScoreRc)
-			return (int)(totalScoreSc);
+			double totalScoreRc =getScoreOfRc(wlmwlData,vitxtxnQueue);
+			if(totalScoreSc>totalScoreRc)
+				return (int)(totalScoreSc);
 
-		return (int)(totalScoreRc);
+			return (int)(totalScoreRc);
+
+		}catch (Exception e) {
+
+			log.warn("Thread " +  getThreadName() + " interrupted.");
+			log.error( "Thread " + getThreadName() +" "+e.toString());
+
+			setIsFinish(true);
+			return 0;
+		}
 
     /*
 
@@ -258,61 +272,73 @@ public class MatchThreadPoolV1 implements Runnable {
 
 	private double getScoreOfSc(WLMWLData wlmwlData, ITXTxnQueue vitxtxnQueue)
 	{
+		try {
+			double scoreOfIdentity=0;
+			double scoreOfTotall=0;
+			double remainScore=100;
+			// look for identity
 
-		double scoreOfIdentity=0;
-		double scoreOfTotall=0;
-		double remainScore=100;
-		// look for identity
+			if(vitxtxnQueue.getScnationalid() !=null && vitxtxnQueue.getScnationalid().length() == 11 ) {
+				if(!vitxtxnQueue.getScnationalid().substring(0,2).equals("99"))
+				{
+					scoreOfIdentity = matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(), vitxtxnQueue.getScnationalid());
+					if(scoreOfIdentity==100) {
+						return scoreOfIdentity;
+						//return scoreOfIdentity;
+					}
 
-		if(vitxtxnQueue.getScnationalid().length() == 11 ) {
-			if(!vitxtxnQueue.getScnationalid().substring(0,2).equals("99"))
-			{
-				scoreOfIdentity = matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(), vitxtxnQueue.getScnationalid());
-				if(scoreOfIdentity==100) return scoreOfIdentity;
-		        //return scoreOfIdentity;
+
+				}
 			}
-		}
 
-		// look for full name
-		double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getScfullname());
-		scoreOfTotall = scoreOfTotall+scoreOfFullName*(percentageOfFullName/100);
-		remainScore=remainScore-percentageOfFullName;
+			// look for full name
+			double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getScfullname());
+			scoreOfTotall = scoreOfTotall+scoreOfFullName*(percentageOfFullName/100);
+			remainScore=remainScore-percentageOfFullName;
 
-		if( remainScore+ scoreOfTotall <matchingScore)
-			return 0;
+			if( remainScore+ scoreOfTotall <matchingScore)
+				return 0;
 
-		// look for identity
-		scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getScnationalid());
-		scoreOfTotall = scoreOfTotall+scoreOfIdentity*(percentageOfIdentity/100);
-		remainScore = remainScore-percentageOfIdentity;
+			// look for identity
+			scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getScnationalid());
+			scoreOfTotall = scoreOfTotall+scoreOfIdentity*(percentageOfIdentity/100);
+			remainScore = remainScore-percentageOfIdentity;
 
-		if( remainScore+ scoreOfTotall <matchingScore)
-			return 0;
-
+			if( remainScore+ scoreOfTotall <matchingScore)
+				return 0;
 
 
-		// look for country
-	   double scoreOfCountry= matchAlgorithms.getResultExact(wlmwlData.getCountryData(),vitxtxnQueue.getScnationality());
-	   scoreOfTotall = scoreOfTotall+scoreOfCountry*(percentageOfCountry/100);
-	   remainScore=remainScore-percentageOfCountry;
+			// look for country
+			double scoreOfCountry= matchAlgorithms.getResultExact(wlmwlData.getCountryData(),vitxtxnQueue.getScnationality());
+			scoreOfTotall = scoreOfTotall+scoreOfCountry*(percentageOfCountry/100);
+			remainScore=remainScore-percentageOfCountry;
 
-		if( remainScore+ scoreOfTotall <matchingScore)
-			return 0;
+			if( remainScore+ scoreOfTotall <matchingScore)
+				return 0;
 
-		// look for Birth Date
-		double scoreOfBirthDate=0;
-		if(wlmwlData.getBirthDateData() != null && vitxtxnQueue.getScbirthdate() !=null)
-			if(wlmwlData.getBirthDateData().compareTo(vitxtxnQueue.getScbirthdate())==0)
-				scoreOfBirthDate=100;
-			else if(wlmwlData.getBirthDateData().getYear()==vitxtxnQueue.getScbirthdate().getYear())
-				scoreOfBirthDate=70;
+			// look for Birth Date
+			double scoreOfBirthDate=0;
+			if(wlmwlData.getBirthDateData() != null && vitxtxnQueue.getScbirthdate() !=null)
+				if(wlmwlData.getBirthDateData().compareTo(vitxtxnQueue.getScbirthdate())==0)
+					scoreOfBirthDate=100;
+				else if(wlmwlData.getBirthDateData().getYear()==vitxtxnQueue.getScbirthdate().getYear())
+					scoreOfBirthDate=70;
 
-		scoreOfTotall = scoreOfTotall+scoreOfBirthDate*(percentageOfBirthDate/100);
-		remainScore=remainScore-percentageOfBirthDate;
 
+			scoreOfTotall = scoreOfTotall+scoreOfBirthDate*(percentageOfBirthDate/100);
+			remainScore=remainScore-percentageOfBirthDate;
 
 
 			return scoreOfTotall;
+
+		}catch (Exception e) {
+
+			log.warn("Thread " +  getThreadName() + " interrupted.");
+			log.error( "Thread " + getThreadName() +" "+e.toString());
+
+			setIsFinish(true);
+			return 0;
+		}
 		/*
 		for (MatchFields field:fieldList) {
 
@@ -349,63 +375,73 @@ public class MatchThreadPoolV1 implements Runnable {
 
 	private double getScoreOfRc(WLMWLData wlmwlData, ITXTxnQueue vitxtxnQueue)
 	{
-		double scoreOfIdentity=0;
-		double scoreOfTotall=0;
-		double remainScore=100;
+		try{
+			double scoreOfIdentity=0;
+			double scoreOfTotall=0;
+			double remainScore=100;
 
-		// look for identity
+			// look for identity
 
-		if(vitxtxnQueue.getRcnationalid() .length() == 11 )
-			if(!vitxtxnQueue.getRcnationalid().substring(0,2).equals("99")) {
-				scoreOfIdentity = matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(), vitxtxnQueue.getRcnationalid());
-              // return scoreOfIdentity;
-				if(scoreOfIdentity==100) return scoreOfIdentity;
-			}
+			if(vitxtxnQueue.getRcnationalid() !=null && vitxtxnQueue.getRcnationalid().length() == 11 )
+				if(!vitxtxnQueue.getRcnationalid().substring(0,2).equals("99")) {
+					scoreOfIdentity = matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(), vitxtxnQueue.getRcnationalid());
+					// return scoreOfIdentity;
+					if(scoreOfIdentity==100) return scoreOfIdentity;
+				}
 
 
-		// look for full name
-		double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getRcfullname());
-		scoreOfTotall = scoreOfTotall+scoreOfFullName*(percentageOfFullName/100);
-		remainScore=remainScore-percentageOfFullName;
+			// look for full name
+			double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getRcfullname());
+			scoreOfTotall = scoreOfTotall+scoreOfFullName*(percentageOfFullName/100);
+			remainScore=remainScore-percentageOfFullName;
 
-		if( remainScore+ scoreOfTotall <matchingScore)
+			if( remainScore+ scoreOfTotall <matchingScore)
+				return 0;
+
+
+			// look for identity
+			scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());
+			scoreOfTotall = scoreOfTotall+scoreOfIdentity*(percentageOfIdentity/100);
+			remainScore = remainScore-percentageOfIdentity;
+
+			if( remainScore+ scoreOfTotall <matchingScore)
+				return 0;
+
+
+
+			// look for country
+			double scoreOfCountry= matchAlgorithms.getResultExact(wlmwlData.getCountryData(),vitxtxnQueue.getRcnationality());
+			scoreOfTotall = scoreOfTotall+scoreOfCountry*(percentageOfCountry/100);
+			remainScore=remainScore-percentageOfCountry;
+
+			if( remainScore+ scoreOfTotall <matchingScore)
+				return 0;
+
+			// look for Birth Date
+			double scoreOfBirthDate=0;
+			if(wlmwlData.getBirthDateData() != null && vitxtxnQueue.getRcbirthdate() !=null)
+				if(wlmwlData.getBirthDateData().compareTo(vitxtxnQueue.getRcbirthdate())==0)
+					scoreOfBirthDate=100;
+				else if(wlmwlData.getBirthDateData().getYear()==vitxtxnQueue.getRcbirthdate().getYear())
+					scoreOfBirthDate=70;
+
+
+
+			scoreOfTotall = scoreOfTotall+scoreOfBirthDate*(percentageOfBirthDate/100);
+			remainScore=remainScore-percentageOfBirthDate;
+
+
+
+			return scoreOfTotall;
+
+		}catch (Exception e) {
+
+			log.warn("Thread " +  getThreadName() + " interrupted.");
+			log.error( "Thread " + getThreadName() +" "+e.toString());
+
+			setIsFinish(true);
 			return 0;
-
-
-		// look for identity
-		scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());
-		scoreOfTotall = scoreOfTotall+scoreOfIdentity*(percentageOfIdentity/100);
-		remainScore = remainScore-percentageOfIdentity;
-
-		if( remainScore+ scoreOfTotall <matchingScore)
-			return 0;
-
-
-
-		// look for country
-		double scoreOfCountry= matchAlgorithms.getResultExact(wlmwlData.getCountryData(),vitxtxnQueue.getRcnationality());
-		scoreOfTotall = scoreOfTotall+scoreOfCountry*(percentageOfCountry/100);
-		remainScore=remainScore-percentageOfCountry;
-
-		if( remainScore+ scoreOfTotall <matchingScore)
-			return 0;
-
-		// look for Birth Date
-		double scoreOfBirthDate=0;
-		if(wlmwlData.getBirthDateData() != null && vitxtxnQueue.getRcbirthdate() !=null)
-			if(wlmwlData.getBirthDateData().compareTo(vitxtxnQueue.getRcbirthdate())==0)
-				scoreOfBirthDate=100;
-			else if(wlmwlData.getBirthDateData().getYear()==vitxtxnQueue.getRcbirthdate().getYear())
-				scoreOfBirthDate=70;
-
-
-
-		scoreOfTotall = scoreOfTotall+scoreOfBirthDate*(percentageOfBirthDate/100);
-		remainScore=remainScore-percentageOfBirthDate;
-
-
-
-		return scoreOfTotall;
+		}
 		/*
 		for (MatchFields field:fieldList) {
 
@@ -432,7 +468,7 @@ public class MatchThreadPoolV1 implements Runnable {
 		int initialLengthDistance= Math.abs(len1  - len2  );
 
 		if(matchAlgorithms.getAlgoritmType().equals(AfparamvalParams.MATCH_ALGORITHM_LEVENSTEIN))
-		return (5*initialLengthDistance*fildScore)/100;
+			return (5*initialLengthDistance*fildScore)/100;
 		else if(matchAlgorithms.getAlgoritmType().equals(AfparamvalParams.MATCH_ALGORITHM_FUZZY))
 			return (5*initialLengthDistance*fildScore)/100;
 		else //AfparamvalParams.MATCH_ALGORITHM_EXACT
