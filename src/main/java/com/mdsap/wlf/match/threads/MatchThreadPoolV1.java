@@ -278,6 +278,17 @@ public class MatchThreadPoolV1 implements Runnable {
 			double remainScore=100;
 			// look for identity
 
+			if(vitxtxnQueue.getScnationalid() !=null  ) {
+
+					scoreOfIdentity = matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(), vitxtxnQueue.getScnationalid());
+					if(scoreOfIdentity==100) {
+						return scoreOfIdentity;
+						//return scoreOfIdentity;
+					}
+
+			}
+
+			/*
 			if(vitxtxnQueue.getScnationalid() !=null && vitxtxnQueue.getScnationalid().length() == 11 ) {
 				if(!vitxtxnQueue.getScnationalid().substring(0,2).equals("99"))
 				{
@@ -290,7 +301,7 @@ public class MatchThreadPoolV1 implements Runnable {
 
 				}
 			}
-
+*/
 			// look for full name
 			double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getScfullname());
 			scoreOfTotall = scoreOfTotall+scoreOfFullName*(percentageOfFullName/100);
@@ -381,14 +392,21 @@ public class MatchThreadPoolV1 implements Runnable {
 			double remainScore=100;
 
 			// look for identity
+			if(vitxtxnQueue.getRcnationalid() !=null  ) {
+				scoreOfIdentity = matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(), vitxtxnQueue.getRcnationalid());
+				// return scoreOfIdentity;
+				if (scoreOfIdentity == 100) return scoreOfIdentity;
 
+			}
+
+			/*
 			if(vitxtxnQueue.getRcnationalid() !=null && vitxtxnQueue.getRcnationalid().length() == 11 )
 				if(!vitxtxnQueue.getRcnationalid().substring(0,2).equals("99")) {
 					scoreOfIdentity = matchAlgorithms.getResultExact(wlmwlData.getTINNumberData(), vitxtxnQueue.getRcnationalid());
 					// return scoreOfIdentity;
 					if(scoreOfIdentity==100) return scoreOfIdentity;
 				}
-
+*/
 
 			// look for full name
 			double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getRcfullname());
