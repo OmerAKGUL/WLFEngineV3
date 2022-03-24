@@ -98,7 +98,7 @@ public class MatchThreadPoolV1 implements Runnable {
 
 				for (WLMWLData bl : wlmwlDataList) {
 
-
+/*
 					if(bl.getPublisherName().equals(AfparamvalParams.MATCH_REFINITIVE_LIST_TYPE))
 					{
 						fieldList=matchProperitiesList.get(0).getFieldList();// matchProperities.getFieldList();
@@ -109,11 +109,10 @@ public class MatchThreadPoolV1 implements Runnable {
 						fieldList=matchProperitiesList.get(1).getFieldList();// matchProperities.getFieldList();
 						matchingScore =matchProperitiesList.get(1).getMatchingScore();//matchProperities.getMatchingScore();
 						matchAlgorithms.setAlgoritmType(matchProperitiesList.get(1).getAlgoritmType());
-
 					}
 
 					getFieldPercentage();
-
+*/
 					int totalScore= this.getScore(bl,tran);
 
 					if(totalScore>=matchingScore) {
@@ -301,19 +300,21 @@ public class MatchThreadPoolV1 implements Runnable {
 
 				}
 			}
-*/
+*/          matchAlgorithms.setAlgoritmType(vitxtxnQueue.getSCMatchAlgorithm());
 			// look for full name
 			double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getScfullname());
-			scoreOfTotall = scoreOfTotall+scoreOfFullName*(percentageOfFullName/100);
-			remainScore=remainScore-percentageOfFullName;
+			//scoreOfTotall = scoreOfTotall+scoreOfFullName*(percentageOfFullName/100);
+			//remainScore=remainScore-percentageOfFullName;
+			scoreOfTotall = scoreOfTotall+scoreOfFullName*(vitxtxnQueue.getSCFullNameScore()/100);
+			remainScore=remainScore-vitxtxnQueue.getSCFullNameScore();
 
 			if( remainScore+ scoreOfTotall <matchingScore)
 				return 0;
 
 			// look for identity
 			scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getScnationalid());
-			scoreOfTotall = scoreOfTotall+scoreOfIdentity*(percentageOfIdentity/100);
-			remainScore = remainScore-percentageOfIdentity;
+			scoreOfTotall = scoreOfTotall+scoreOfIdentity*(vitxtxnQueue.getSCNationalityIDScore()/100);
+			remainScore = remainScore-vitxtxnQueue.getSCNationalityIDScore();
 
 			if( remainScore+ scoreOfTotall <matchingScore)
 				return 0;
@@ -321,8 +322,8 @@ public class MatchThreadPoolV1 implements Runnable {
 
 			// look for country
 			double scoreOfCountry= matchAlgorithms.getResultExact(wlmwlData.getCountryData(),vitxtxnQueue.getScnationality());
-			scoreOfTotall = scoreOfTotall+scoreOfCountry*(percentageOfCountry/100);
-			remainScore=remainScore-percentageOfCountry;
+			scoreOfTotall = scoreOfTotall+scoreOfCountry*(vitxtxnQueue.getSCNationalityScore()/100);
+			remainScore=remainScore-vitxtxnQueue.getSCNationalityScore();
 
 			if( remainScore+ scoreOfTotall <matchingScore)
 				return 0;
@@ -336,8 +337,8 @@ public class MatchThreadPoolV1 implements Runnable {
 					scoreOfBirthDate=70;
 
 
-			scoreOfTotall = scoreOfTotall+scoreOfBirthDate*(percentageOfBirthDate/100);
-			remainScore=remainScore-percentageOfBirthDate;
+			scoreOfTotall = scoreOfTotall+scoreOfBirthDate*(vitxtxnQueue.getSCBirthDateScore()/100);
+			remainScore=remainScore-vitxtxnQueue.getSCBirthDateScore();
 
 
 			return scoreOfTotall;
@@ -407,11 +408,11 @@ public class MatchThreadPoolV1 implements Runnable {
 					if(scoreOfIdentity==100) return scoreOfIdentity;
 				}
 */
-
+			matchAlgorithms.setAlgoritmType(vitxtxnQueue.getRCMatchAlgorithm());
 			// look for full name
 			double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getRcfullname());
-			scoreOfTotall = scoreOfTotall+scoreOfFullName*(percentageOfFullName/100);
-			remainScore=remainScore-percentageOfFullName;
+			scoreOfTotall = scoreOfTotall+scoreOfFullName*(vitxtxnQueue.getRCFullNameScore()/100);
+			remainScore=remainScore-vitxtxnQueue.getRCFullNameScore();
 
 			if( remainScore+ scoreOfTotall <matchingScore)
 				return 0;
@@ -419,8 +420,8 @@ public class MatchThreadPoolV1 implements Runnable {
 
 			// look for identity
 			scoreOfIdentity= matchAlgorithms.getResultNew(wlmwlData.getTINNumberData(),vitxtxnQueue.getRcnationalid());
-			scoreOfTotall = scoreOfTotall+scoreOfIdentity*(percentageOfIdentity/100);
-			remainScore = remainScore-percentageOfIdentity;
+			scoreOfTotall = scoreOfTotall+scoreOfIdentity*(vitxtxnQueue.getRCNationalityIDScore()/100);
+			remainScore = remainScore-vitxtxnQueue.getRCNationalityIDScore();
 
 			if( remainScore+ scoreOfTotall <matchingScore)
 				return 0;
@@ -429,8 +430,8 @@ public class MatchThreadPoolV1 implements Runnable {
 
 			// look for country
 			double scoreOfCountry= matchAlgorithms.getResultExact(wlmwlData.getCountryData(),vitxtxnQueue.getRcnationality());
-			scoreOfTotall = scoreOfTotall+scoreOfCountry*(percentageOfCountry/100);
-			remainScore=remainScore-percentageOfCountry;
+			scoreOfTotall = scoreOfTotall+scoreOfCountry*(vitxtxnQueue.getRCNationalityScore()/100);
+			remainScore=remainScore-vitxtxnQueue.getRCNationalityScore();
 
 			if( remainScore+ scoreOfTotall <matchingScore)
 				return 0;
@@ -445,8 +446,8 @@ public class MatchThreadPoolV1 implements Runnable {
 
 
 
-			scoreOfTotall = scoreOfTotall+scoreOfBirthDate*(percentageOfBirthDate/100);
-			remainScore=remainScore-percentageOfBirthDate;
+			scoreOfTotall = scoreOfTotall+scoreOfBirthDate*(vitxtxnQueue.getRCBirthDateScore()/100);
+			remainScore=remainScore-vitxtxnQueue.getRCBirthDateScore();
 
 
 

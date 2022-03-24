@@ -292,6 +292,27 @@ public class ITXTxnQueue implements Serializable {
 	@Column(name="SCRCRelation")
 	private String SCRCRelation;
 
+	@Column(name="SCFullNameScore")
+	private Integer SCFullNameScore;
+	@Column(name="SCNationalityScore")
+	private Integer SCNationalityScore;
+	@Column(name="SCNationalityIDScore")
+	private Integer SCNationalityIDScore;
+	@Column(name="SCBirthDateScore")
+	private Integer SCBirthDateScore;
+	@Column(name="SCMatchAlgorithm")
+	private String SCMatchAlgorithm;
+	@Column(name="RCFullNameScore")
+	private Integer RCFullNameScore;
+	@Column(name="RCNationalityScore")
+	private Integer RCNationalityScore;
+	@Column(name="RCNationalityIDScore")
+	private Integer RCNationalityIDScore;
+	@Column(name="RCBirthDateScore")
+	private Integer RCBirthDateScore;
+	@Column(name="RCMatchAlgorithm")
+	private String RCMatchAlgorithm;
+
 	public String getDataSc(String value)
 	{
 		switch (value) {
