@@ -300,6 +300,8 @@ public class ITXTxnQueue implements Serializable {
 	private Integer SCNationalityIDScore;
 	@Column(name="SCBirthDateScore")
 	private Integer SCBirthDateScore;
+	@Column(name="SCMAScore")
+	private Integer SCMAScore;
 	@Column(name="SCMatchAlgorithm")
 	private String SCMatchAlgorithm;
 	@Column(name="RCFullNameScore")
@@ -310,6 +312,8 @@ public class ITXTxnQueue implements Serializable {
 	private Integer RCNationalityIDScore;
 	@Column(name="RCBirthDateScore")
 	private Integer RCBirthDateScore;
+	@Column(name="RCMAScore")
+	private Integer RCMAScore;
 	@Column(name="RCMatchAlgorithm")
 	private String RCMatchAlgorithm;
 

@@ -300,7 +300,10 @@ public class MatchThreadPoolV1 implements Runnable {
 
 				}
 			}
-*/          matchAlgorithms.setAlgoritmType(vitxtxnQueue.getSCMatchAlgorithm());
+
+*/
+			matchingScore=vitxtxnQueue.getSCMAScore();
+			matchAlgorithms.setAlgoritmType(vitxtxnQueue.getSCMatchAlgorithm());
 			// look for full name
 			double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getScfullname());
 			//scoreOfTotall = scoreOfTotall+scoreOfFullName*(percentageOfFullName/100);
@@ -408,6 +411,7 @@ public class MatchThreadPoolV1 implements Runnable {
 					if(scoreOfIdentity==100) return scoreOfIdentity;
 				}
 */
+			matchingScore=vitxtxnQueue.getRCMAScore();
 			matchAlgorithms.setAlgoritmType(vitxtxnQueue.getRCMatchAlgorithm());
 			// look for full name
 			double scoreOfFullName= matchAlgorithms.getResultNew(wlmwlData.getNameData(),vitxtxnQueue.getRcfullname());
