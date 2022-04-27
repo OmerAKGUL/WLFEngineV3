@@ -242,9 +242,9 @@ public class ITXTxnQueue implements Serializable {
 	@Column(name="SCEmail")
 	private String SCEmail;
 	@Column(name = "SCDateofNationalID")
-	private Timestamp SCDateofNationalID;
+	private String SCDateofNationalID;
 	@Column(name = "SCValidityDateofNationalID")
-	private Timestamp SCValidityDateofNationalID;
+	private String SCValidityDateofNationalID;
 	@Column(name="SCNationalIDCounty")
 	private String SCNationalIDCounty;
 	@Column(name="SCCounty")
@@ -260,9 +260,9 @@ public class ITXTxnQueue implements Serializable {
 	@Column(name="RCEmail")
 	private String RCEmail;
 	@Column(name = "RCDateofNationalID")
-	private Timestamp RCDateofNationalID;
+	private String RCDateofNationalID;
 	@Column(name="RCValidityDateofNationalID")
-	private Timestamp RCValidityDateofNationalID;
+	private String RCValidityDateofNationalID;
 	@Column(name="RCNationalIDCounty")
 	private String RCNationalIDCounty;
 	@Column(name="RCCounty")
